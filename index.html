@@ -11,10 +11,15 @@
 </head>
 <body>
 <div id="root"></div>
-<script src="https://unpkg.com/react@19/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@19/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script type="text/babel">
+<div id="fallback" style="display:none;color:#64ffda;text-align:center;padding:60px 20px;font-family:sans-serif;"><p style="font-size:24px;margin-bottom:12px;">⏳ Loading...</p><p style="color:#7c8aa0;font-size:14px;">If this stays, check console for errors.</p></div>
+<script>
+// Show fallback if app doesn't load within 8 seconds
+setTimeout(function(){if(!document.getElementById('root').children.length){document.getElementById('fallback').style.display='block';}},8000);
+</script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
 const{useState,useEffect,useCallback,useMemo,createContext,useContext}=React;
 
 const C={bg:'#0a0e17',card:'#13182a',border:'#1e2640',inputBg:'#181f35',text:'#e2e8f0',sub:'#7c8aa0',accent:'#64ffda',danger:'#ff6b6b'};
@@ -222,7 +227,14 @@ return(<DP><div style={{minHeight:'100vh',backgroundColor:C.bg,color:C.text,maxW
 <div style={{position:'fixed',bottom:0,left:'50%',transform:'translateX(-50%)',width:'100%',maxWidth:480,display:'flex',backgroundColor:'#0d1220',borderTop:`1px solid ${C.border}`,paddingBottom:8,zIndex:100}}>{TABS.map(t=><button key={t.id} onClick={()=>{setTab(t.id);setShowS(false)}} style={{flex:1,padding:'10px 0',background:'none',border:'none',color:tab===t.id&&!showS?C.accent:C.sub,fontSize:12,fontWeight:tab===t.id&&!showS?700:500,cursor:'pointer',transition:'color 0.2s'}}>{t.label}</button>)}</div>
 <LvlUpOvl/></div></DP>)}
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+try {
+  ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+  document.getElementById('fallback').style.display='none';
+} catch(e) {
+  document.getElementById('fallback').innerHTML='<p style="font-size:20px;color:#ff6b6b;">Error loading app</p><p style="color:#7c8aa0;font-size:13px;margin-top:8px;">'+e.message+'</p>';
+  document.getElementById('fallback').style.display='block';
+  console.error(e);
+}
 </script>
 </body>
 </html>
