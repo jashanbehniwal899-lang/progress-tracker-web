@@ -120,8 +120,8 @@ textarea.inp{resize:vertical;min-height:65px}
 .daycard-preview .ep{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px}
 .daycard-preview .arrow{font-size:12px;color:var(--sub);transition:transform .3s;display:inline-block}
 .daycard-preview .arrow.open{transform:rotate(180deg)}
-.daycard-body{padding:0 16px;max-height:0;opacity:0;overflow:hidden;transition:max-height .4s ease,opacity .3s ease,padding .3s ease}
-.daycard-body.open{max-height:1000px;opacity:1;padding-bottom:16px}
+.daycard-body{padding:0 16px;max-height:0;opacity:0;overflow:hidden;transition:max-height .6s ease,opacity .3s ease,padding .3s ease}
+.daycard-body.open{max-height:2400px;opacity:1;padding-bottom:16px}
 .daycard-field{margin-bottom:14px}
 .daycard-field label{font-size:10px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:block}
 
@@ -232,7 +232,6 @@ textarea.inp{resize:vertical;min-height:65px}
 <body>
 <div class="ctr" id="app"></div>
 <div class="bottom-bar" id="bbar">
-  <button class="bb danger" onclick="rw()">🔄 Reset</button>
   <button class="bb exp" onclick="exportWeek()">📤 Export</button>
   <button class="bb" onclick="sS()">⚙️ Settings</button>
 </div>
@@ -567,9 +566,9 @@ function R(){
             <label>Stress Level — ${dst!==undefined&&dst!==null?STRESS_LABELS[dst]:"not set"}</label>
             <div class="stress-row">
               <span style="font-size:11px;color:var(--sub)">😌</span>
-              <input class="stress-slider" type="range" min="1" max="5" value="${dst||3}" oninput="sdl('stress_${i}',this.value);R()" ${ic?"":"disabled"} style="background:linear-gradient(to right,${stressColor(dst||3)} ${((dst||3)-1)*25}%,rgba(255,255,255,0.1) ${((dst||3)-1)*25}%)">
+              <input class="stress-slider" type="range" min="1" max="5" value="${dst||3}" id="stsl_${i}" oninput="updateStressUI(${i},this.value)" onchange="sdl('stress_${i}',this.value)" ${ic?"":"disabled"} style="background:linear-gradient(to right,${stressColor(dst||3)} ${((dst||3)-1)*25}%,rgba(255,255,255,0.1) ${((dst||3)-1)*25}%)">
               <span style="font-size:11px;color:var(--sub)">🔥</span>
-              <span class="stress-label" style="color:${stressColor(dst||3)}">${dst||3}</span>
+              <span class="stress-label" id="stlb_${i}" style="color:${stressColor(dst||3)}">${dst||3}</span>
             </div>
           </div>
 
@@ -708,6 +707,10 @@ function sS(){
     h+=`<div class="ar"><input class="inp" id="nt${ci}" placeholder="Add a habit..." style="font-size:11px;padding:5px 8px" onkeydown="if(event.key==='Enter')aT(${ci})"><button style="background:${cat.c}22;border:1px solid ${cat.c}44;color:${cat.c};padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito'" onclick="aT(${ci})">+ Add</button></div></div>`;
   });
   h+=`<div class="ar" style="margin-top:10px"><input class="inp" id="ncat" placeholder="New category name..." style="font-size:12px"><button style="background:var(--accent);border:none;color:#0a192f;padding:8px 16px;border-radius:8px;font-weight:700;font-family:'Nunito';cursor:pointer" onclick="aC()">+ Category</button></div>`;
+  h+=`<div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+    <p style="font-size:10px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">⚠️ Danger Zone</p>
+    <button onclick="cS();rw()" style="width:100%;padding:10px;border-radius:10px;border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.06);color:#ef4444;font-weight:700;font-family:'Nunito';cursor:pointer;font-size:13px">🔄 Reset Current Week</button>
+  </div>`;
   h+=`<button class="svb" onclick="cS()">Save & Close</button></div>`;
   el.innerHTML=h;document.body.appendChild(el);
 }
@@ -723,6 +726,24 @@ function doRC(i){cancelReset();S.cats.splice(i,1);save();cS();sS()}
 function rT(ci,ti){S.cats[ci].t.splice(ti,1);save();cS();sS()}
 function aT(ci){const inp=document.getElementById("nt"+ci);if(!inp||!inp.value.trim())return;S.cats[ci].t.push(inp.value.trim());save();cS();sS()}
 function aC(){const inp=document.getElementById("ncat");if(!inp||!inp.value.trim())return;S.cats.push({id:"c_"+Date.now(),l:inp.value.trim(),e:"📌",d:7,c:"#6366f1",t:[]});save();cS();sS()}
+
+// Live stress label update — no re-render, no crash
+function updateStressUI(i,v){
+  const STRESS_LABELS=["","😌 Chill","🙂 Okay","😐 Mild","😰 Stressed","🔥 Overwhelmed"];
+  const lb=document.getElementById("stlb_"+i);
+  const sl=document.getElementById("stsl_"+i);
+  if(lb){lb.textContent=v;lb.style.color=stressColor(v)}
+  if(sl){
+    const pct=(v-1)*25;
+    sl.style.background="linear-gradient(to right,"+stressColor(v)+" "+pct+"%,rgba(255,255,255,0.1) "+pct+"%)";
+  }
+  // update the label text above
+  const labelEl=sl&&sl.parentElement&&sl.parentElement.previousElementSibling;
+  if(labelEl){
+    const SLABELS=["","😌 Chill","🙂 Okay","😐 Mild","😰 Stressed","🔥 Overwhelmed"];
+    labelEl.textContent="Stress Level — "+SLABELS[v];
+  }
+}
 
 R();
 </script>
