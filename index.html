@@ -2,182 +2,729 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#0a0e17">
-<title>Progress Tracker</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0e17;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;overflow-x:hidden}::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#0a0e17}::-webkit-scrollbar-thumb{background:#1e2640;border-radius:4px}input,textarea,button{font-family:inherit}input:disabled,textarea:disabled{opacity:0.6}@keyframes todayGlow{0%,100%{box-shadow:0 0 8px rgba(100,255,218,0.15)}50%{box-shadow:0 0 14px rgba(100,255,218,0.3)}}</style>
+<meta name="apple-mobile-web-app-title" content="Jashan's Tracker">
+<title>Jashan's Life Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#0a192f;--bg2:#112240;--bg3:#1d3557;
+  --accent:#64ffda;--accent2:#00b4d8;
+  --text:#e2e8f0;--sub:#8892b0;
+  --card:rgba(255,255,255,0.03);
+  --card2:rgba(255,255,255,0.05);
+  --border:rgba(100,255,218,0.08);
+  --inputBg:rgba(255,255,255,0.04);
+  --fit:#10b981;--mental:#8b5cf6;--fin:#f59e0b;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Nunito',sans-serif;color:var(--text);background:linear-gradient(160deg,var(--bg1),var(--bg2),var(--bg3));min-height:100vh;min-height:100dvh;padding-bottom:90px;-webkit-font-smoothing:antialiased}
+
+/* ANIMATIONS */
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fu .4s ease forwards}
+@keyframes popIn{0%{transform:scale(0.5);opacity:0}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes checkPop{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes confettiFall{0%{transform:translateY(0) rotate(0deg) scale(1);opacity:1}100%{transform:translateY(100vh) rotate(720deg) scale(0.3);opacity:0}}
+@keyframes streakPop{0%{transform:scale(1)}50%{transform:scale(1.4)}100%{transform:scale(1.1)}}
+
+/* LAYOUT */
+.ctr{max-width:680px;margin:0 auto;padding:0 16px}
+
+/* HEADER */
+.hdr{padding:24px 0 6px}
+.hdr-top{display:flex;align-items:center;justify-content:space-between}
+.hdr h1{font-family:'Outfit';font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--accent),#64ffda88,#e2e8f0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr .s{font-size:11px;color:var(--sub);font-weight:600;margin-top:2px}
+.today-badge{font-size:10px;background:rgba(100,255,218,0.1);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:700;border:1px solid rgba(100,255,218,0.2)}
+
+/* WEEKLY INTENTION BANNER */
+.intention-banner{background:linear-gradient(135deg,rgba(100,255,218,0.07),rgba(100,255,218,0.02));border:1px solid rgba(100,255,218,0.15);border-radius:14px;padding:14px 16px;margin-bottom:16px}
+.intention-label{font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.intention-text{font-size:14px;font-weight:700;color:var(--text);font-style:italic;opacity:0.9}
+.intention-input{width:100%;background:transparent;border:none;outline:none;font-size:14px;font-weight:700;color:var(--accent);font-family:'Nunito';font-style:italic;placeholder-color:var(--sub)}
+.intention-input::placeholder{color:var(--sub);font-style:italic;font-weight:600}
+.intention-hint{font-size:10px;color:var(--sub);margin-top:4px}
+
+/* TABS */
+.tabs{display:flex;gap:6px;padding:12px 0 16px}
+.tab{flex:1;padding:9px 8px;border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito';background:var(--card);color:var(--sub);transition:all .25s;text-align:center}
+.tab:hover{transform:translateY(-1px)}
+.tab.a{background:var(--accent);color:#0a192f;border-color:transparent;font-weight:800}
+
+/* SCORE CARD */
+.sm{padding:18px;background:linear-gradient(135deg,rgba(100,255,218,0.06),rgba(100,255,218,0.02));border:1px solid rgba(100,255,218,0.12);border-radius:16px;margin-bottom:14px}
+.sm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sm .lb{font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.sm .bg{font-size:30px;font-family:'Outfit';font-weight:900}
+.sm .bg span{font-size:15px;color:var(--sub)}
+.stk{font-size:12px;margin-top:4px;font-weight:700;color:#f59e0b}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.stat-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;text-align:center}
+.stat-box .sv{font-size:18px;font-weight:900;font-family:'Outfit'}
+.stat-box .sl{font-size:9px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
+.stat-box .si{font-size:14px;margin-bottom:2px}
+
+/* CAT DOTS */
+.cd{display:flex;gap:9px;margin-top:5px}
+.cd .d{width:6px;height:6px;border-radius:50%;display:inline-block}
+.cd span{font-size:10px;color:var(--sub);font-weight:600}
+
+/* CATEGORY CARDS */
+.cc{margin-bottom:16px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.ch{padding:14px 16px 10px;display:flex;justify-content:space-between;align-items:center}
+.ch h2{font-size:15px;font-weight:800;font-family:'Outfit';display:flex;align-items:center;gap:6px}
+.ch .m{font-size:10px;color:var(--sub);font-weight:600;margin-top:1px}
+.ch .p{font-size:17px;font-weight:900;font-family:'Outfit'}
+.ch .ps{font-size:9px;color:var(--sub)}
+.bw{padding:0 16px 2px}
+.gw{padding:10px 16px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:separate;border-spacing:3px}
+th{font-size:9px;color:var(--sub);font-weight:700;padding:2px 1px;text-align:center}
+th:first-child{text-align:left;padding-left:5px;min-width:110px}
+td.tn{font-size:11px;font-weight:600;padding:4px 5px}
+.ck{width:28px;height:28px;margin:0 auto;display:flex;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;transition:all .15s;border:2px solid var(--border);background:var(--inputBg)}
+.ck:hover{transform:scale(1.1)}
+.ck.on{border-color:transparent;animation:checkPop .3s ease}
+
+/* STREAK BADGES */
+.streak-row{padding:0 16px 14px;display:flex;flex-wrap:wrap;gap:6px}
+.streak-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;display:flex;align-items:center;gap:3px}
+
+/* SUMMARY */
+.sum{margin-bottom:18px;padding:18px;background:linear-gradient(135deg,rgba(100,255,218,0.04),var(--card));border:1px solid var(--border);border-radius:14px}
+.sum h3{font-size:14px;font-weight:800;font-family:'Outfit';margin-bottom:12px}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--card);border-radius:9px;margin-bottom:8px}
+.srow .n{font-size:12px;font-weight:700}
+.srow .bd{font-size:10px;padding:2px 7px;border-radius:14px;font-weight:700}
+.sts span{font-size:20px;cursor:pointer;opacity:.23;transition:all .2s;display:inline-block}
+.sts span.on{opacity:1}
+.sl{font-size:11px;color:var(--sub);font-weight:700;margin-bottom:5px;margin-top:10px}
+.inp{width:100%;background:var(--inputBg);border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:13px;font-family:'Nunito';outline:none}
+.inp:focus{border-color:rgba(100,255,218,0.3)}
+.inp::placeholder{color:var(--sub)}
+textarea.inp{resize:vertical;min-height:65px}
+
+/* DAILY LOG */
+.daycard{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:border-color .3s}
+.daycard-head{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;-webkit-user-select:none;user-select:none;transition:background .2s}
+.daycard-head:hover{background:rgba(100,255,218,0.03)}
+.daycard-day{font-size:14px;font-weight:800;font-family:'Outfit'}
+.daycard-preview{display:flex;align-items:center;gap:8px}
+.daycard-preview .mood-prev{font-size:18px}
+.daycard-preview .ep{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px}
+.daycard-preview .arrow{font-size:12px;color:var(--sub);transition:transform .3s;display:inline-block}
+.daycard-preview .arrow.open{transform:rotate(180deg)}
+.daycard-body{padding:0 16px;max-height:0;opacity:0;overflow:hidden;transition:max-height .4s ease,opacity .3s ease,padding .3s ease}
+.daycard-body.open{max-height:1000px;opacity:1;padding-bottom:16px}
+.daycard-field{margin-bottom:14px}
+.daycard-field label{font-size:10px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:block}
+
+/* MOOD */
+.mood-row{display:flex;gap:6px;flex-wrap:wrap}
+.mood-btn{font-size:22px;cursor:pointer;opacity:.25;transition:all .15s;padding:4px;border-radius:8px;display:inline-block}
+.mood-btn.a{opacity:1;transform:scale(1.15);background:rgba(100,255,218,0.08)}
+.mood-btn:hover{opacity:.6}
+
+/* ENERGY */
+.energy-row{display:flex;gap:6px}
+.eng-num{width:40px;height:40px;border-radius:10px;font-size:16px;font-weight:800;cursor:pointer;border:2px solid var(--border);background:transparent;color:var(--sub);font-family:'Outfit';transition:all .2s;display:flex;align-items:center;justify-content:center}
+.eng-num:hover{border-color:var(--accent);transform:scale(1.05)}
+.eng-num.a{border-color:var(--accent);background:rgba(100,255,218,0.12);color:var(--accent);animation:popIn .3s ease}
+
+/* STRESS SLIDER */
+.stress-row{display:flex;align-items:center;gap:10px}
+.stress-slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;outline:none;cursor:pointer}
+.stress-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg2)}
+.stress-label{font-size:13px;font-weight:800;min-width:24px;text-align:center}
+
+/* WORKOUT LOG */
+.workout-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.workout-type-btn{padding:8px 6px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid var(--border);background:var(--inputBg);color:var(--sub);font-family:'Nunito';transition:all .2s;text-align:center}
+.workout-type-btn:hover{border-color:var(--fit);color:var(--fit)}
+.workout-type-btn.a{border-color:var(--fit);background:rgba(16,185,129,0.12);color:var(--fit)}
+.dur-input{width:100%;background:var(--inputBg);border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:14px;font-weight:800;font-family:'Outfit';outline:none;transition:border-color .2s}
+.dur-input:focus{border-color:rgba(16,185,129,0.4)}
+.dur-input::placeholder{color:var(--sub);font-weight:600;font-size:13px}
+
+/* MEAL LOG */
+.meal-inp{width:100%;background:var(--inputBg);border:1px solid var(--border);border-radius:9px;padding:8px 12px;color:var(--text);font-size:12px;font-family:'Nunito';outline:none;transition:border-color .2s;margin-bottom:6px}
+.meal-inp:focus{border-color:rgba(16,185,129,0.3)}
+.meal-inp::placeholder{color:var(--sub)}
+
+/* SLEEP */
+.sleep-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.time-inp{width:100%;background:var(--inputBg);border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:14px;font-weight:800;font-family:'Outfit';outline:none;transition:border-color .2s}
+.time-inp:focus{border-color:rgba(100,255,218,0.3)}
+.sleep-calc{font-size:11px;color:var(--accent);font-weight:700;margin-top:5px}
+
+/* JOURNAL */
+.journal-inp{width:100%;background:var(--inputBg);border:1px solid var(--border);border-radius:9px;padding:10px 12px;color:var(--text);font-size:13px;font-family:'Nunito';outline:none;resize:vertical;min-height:70px;transition:border-color .2s}
+.journal-inp:focus{border-color:rgba(139,92,246,0.3)}
+.journal-inp::placeholder{color:var(--sub)}
+.journal-prompt{font-size:11px;color:#8b5cf6;font-weight:600;font-style:italic;margin-bottom:6px;opacity:0.8}
+
+/* QUICK JOURNAL FIELDS */
+.quick-journal{display:flex;flex-direction:column;gap:6px}
+.qj-row{display:flex;align-items:flex-start;gap:8px;background:var(--inputBg);border:1px solid var(--border);border-radius:9px;padding:8px 12px}
+.qj-emoji{font-size:14px;margin-top:1px;flex-shrink:0}
+.qj-inp{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:12px;font-family:'Nunito';resize:none;min-height:20px}
+.qj-inp::placeholder{color:var(--sub)}
+
+/* HISTORY */
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 14px}
+.week-nav-btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--sub);font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito';padding:6px 14px;transition:all .2s}
+.week-nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+.week-nav-btn:disabled{opacity:0.3;cursor:default}
+.week-nav-btn:disabled:hover{border-color:var(--border);color:var(--sub)}
+.week-nav-curr{font-size:12px;font-weight:800;color:var(--accent);cursor:pointer;padding:6px 14px;border-radius:8px;border:1px solid var(--accent);background:rgba(100,255,218,0.08);font-family:'Nunito';transition:all .2s}
+.week-nav-curr:hover{background:rgba(100,255,218,0.15)}
+.hc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:all .3s;margin-bottom:10px}
+.hc:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.hbs{display:flex;gap:5px;margin-top:8px}
+.hbi{flex:1;background:var(--inputBg);border-radius:7px;padding:6px;text-align:center}
+.h-mid{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.best-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;background:rgba(245,158,11,0.12);color:#f59e0b;padding:2px 7px;border-radius:6px;font-weight:800;margin-left:6px}
+
+/* BOTTOM BAR */
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,var(--bg1) 30%);padding:12px 16px 20px;display:flex;justify-content:center;gap:10px;z-index:100}
+.bb{padding:10px 20px;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito';transition:all .25s;border:1px solid var(--border);background:rgba(10,25,47,0.9);color:var(--sub);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.bb:hover{transform:translateY(-2px)}
+.bb.danger:hover{border-color:#ef4444;color:#ef4444}
+.bb.exp:hover{border-color:var(--accent);color:var(--accent)}
+
+/* CONFETTI */
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:2000;overflow:hidden}
+.confetti-piece{position:absolute;width:10px;height:10px;top:-20px;animation:confettiFall 3s ease-out forwards}
+
+/* SETTINGS MODAL */
+.mbg{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:flex-start;padding:20px;overflow-y:auto}
+.mdl{width:100%;max-width:540px;background:var(--bg2);border-radius:18px;border:1px solid var(--border);padding:24px;position:relative}
+.mc{position:absolute;top:14px;right:14px;background:none;border:none;color:var(--sub);font-size:20px;cursor:pointer}
+.mdl h2{font-family:'Outfit';font-size:20px;font-weight:800;margin-bottom:20px}
+.ce{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
+.ceh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.db{width:30px;height:30px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito';border:2px solid var(--border);background:transparent;color:var(--sub)}
+.ti{display:flex;align-items:center;gap:5px;padding:4px 7px;border-radius:7px;margin-bottom:2px}
+.ti:hover{background:rgba(100,255,218,0.05)}
+.ti .nm{flex:1;font-size:12px;font-weight:600}
+.ti .tdl{background:none;border:none;color:#ef4444aa;cursor:pointer;font-size:11px;padding:2px}
+.ar{display:flex;gap:5px;margin-top:6px}
+.svb{width:100%;padding:11px;border-radius:11px;background:var(--accent);border:none;color:#0a192f;font-size:14px;font-weight:800;cursor:pointer;font-family:'Outfit';margin-top:16px}
+.clr-dot{width:26px;height:26px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;display:inline-block}
+.clr-dot:hover{transform:scale(1.15)}
+.clr-dot.a{border-color:#fff;box-shadow:0 0 10px rgba(255,255,255,0.3)}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#0a192f;padding:10px 24px;border-radius:10px;font-weight:700;font-size:13px;font-family:'Nunito';z-index:3000;animation:fu .3s ease}
+
+/* SECTION DIVIDER */
+.sec-divider{font-size:10px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px;padding-left:4px}
+
+@media(max-width:480px){.hdr h1{font-size:19px}.bb{padding:10px 14px;font-size:11px}.workout-grid{grid-template-columns:1fr 1fr}}
+</style>
 </head>
 <body>
-<div id="root"></div>
-<div id="fallback" style="display:none;color:#64ffda;text-align:center;padding:60px 20px;font-family:sans-serif;"><p style="font-size:24px;margin-bottom:12px;">⏳ Loading...</p><p style="color:#7c8aa0;font-size:14px;">If this stays, check console for errors.</p></div>
-<script>setTimeout(function(){if(!document.getElementById('root').children.length){document.getElementById('fallback').style.display='block';}},8000);</script>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js"></script>
-<script type="text/babel" data-presets="react">
-const{useState,useEffect,useCallback,useMemo,createContext,useContext}=React;
-
-const C={bg:'#0a0e17',card:'#13182a',border:'#1e2640',inputBg:'#181f35',text:'#e2e8f0',sub:'#7c8aa0',accent:'#64ffda',danger:'#ff6b6b'};
-const MOODS=['😊','😐','😔','😡','😴','🤩'];
-const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-const JOURNAL_PROMPTS=['What went well today?','What did you learn?','What are you grateful for?','How can tomorrow be better?','One highlight from today...','What challenged you?','Something that made you smile...'];
-const CATEGORY_COLORS=['#10b981','#8b5cf6','#f59e0b','#3b82f6','#ef4444','#ec4899','#06b6d4','#84cc16'];
-const DEFAULT_CATEGORIES=[
-{id:'fitness',name:'Fitness Tracker',icon:'💪',color:'#10b981',days:7,tasks:['Do Workout','Log Meal 1','Log Meal 2','Log Meal 3','Hit Calories Intake','Hit Protein Intake']},
-{id:'emotional',name:'Emotional Growth',icon:'🧠',color:'#8b5cf6',days:7,tasks:['Write Growth Journal','Talk to Family / Friend','Play any Match']},
-{id:'financial',name:'Financial Growth',icon:'💰',color:'#f59e0b',days:6,tasks:['Go to Work','Log Hours','Do Next Practical Step']}
-];
-const GOAL_CATEGORIES=[
-{id:'health',name:'Health',icon:'🏋️',color:'#10b981'},
-{id:'wealth',name:'Wealth',icon:'💎',color:'#f59e0b'},
-{id:'happiness',name:'Happiness',icon:'😊',color:'#8b5cf6'}
-];
-
-const SK='pt_pwa_v1';
-function getWeekId(date){const d=date||new Date();const target=new Date(d.valueOf());const dayNr=(d.getDay()+6)%7;target.setDate(target.getDate()-dayNr+3);const jan4=new Date(target.getFullYear(),0,4);const dayDiff=(target.getTime()-jan4.getTime())/86400000;const weekNr=1+Math.round((dayDiff-3+((jan4.getDay()+6)%7))/7);return`${target.getFullYear()}-W${String(weekNr).padStart(2,'0')}`}
-function getWeekStart(weekId){const p=weekId.split('-W');const y=parseInt(p[0]);const w=parseInt(p[1]);const j=new Date(y,0,4);const jd=(j.getDay()+6)%7;const ws=new Date(j);ws.setDate(j.getDate()-jd+(w-1)*7);return ws}
-function getWeekRange(weekId){const s=getWeekStart(weekId);const e=new Date(s);e.setDate(s.getDate()+6);const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return`${s.getDate()} ${m[s.getMonth()]} — ${e.getDate()} ${m[e.getMonth()]}`}
-function getTodayIndex(){const d=new Date().getDay();return d===0?6:d-1}
-function getAdjacentWeek(weekId,dir){const s=getWeekStart(weekId);s.setDate(s.getDate()+dir*7);return getWeekId(s)}
-function initWeekData(cats){const t={};for(const c of cats){t[c.id]={};for(const task of c.tasks)t[c.id][task]=new Array(c.days).fill(false)}return{tasks:t,logs:{},meta:{stars:0,reflection:'',focus:''}}}
-function ensureWeek(data,wid){if(!data.weeks[wid])data.weeks[wid]=initWeekData(data.categories);for(const c of data.categories){if(!data.weeks[wid].tasks[c.id])data.weeks[wid].tasks[c.id]={};for(const t of c.tasks){if(!data.weeks[wid].tasks[c.id][t])data.weeks[wid].tasks[c.id][t]=new Array(c.days).fill(false)}}if(!data.weeks[wid].meta)data.weeks[wid].meta={stars:0,reflection:'',focus:''};if(!data.weeks[wid].logs)data.weeks[wid].logs={};return data}
-function getCategoryScore(wd,cat){const ct=wd.tasks[cat.id]||{};let d=0,total=0;for(const t of cat.tasks){const a=ct[t]||[];for(let i=0;i<cat.days;i++){total++;if(a[i])d++}}return{done:d,total,pct:total>0?Math.round((d/total)*100):0}}
-function getOverallScore(wd,cats){let d=0,t=0;for(const c of cats){const s=getCategoryScore(wd,c);d+=s.done;t+=s.total}return{done:d,total:t,pct:t>0?Math.round((d/t)*100):0}}
-const DEFAULT_DAY_LABELS=[{icon:'',label:''},{icon:'',label:''},{icon:'',label:''},{icon:'',label:''},{icon:'',label:''},{icon:'',label:''},{icon:'',label:''}];
-function getDefault(){return{categories:DEFAULT_CATEGORIES.map(c=>({...c,tasks:[...c.tasks]})),weeks:{},goals:[],calTarget:2500,dayLabels:DEFAULT_DAY_LABELS.map(d=>({...d}))}}
-function loadD(){try{const r=localStorage.getItem(SK);if(r){const d=JSON.parse(r);if(!d.categories||!d.weeks)return getDefault();if(!d.goals)d.goals=[];if(!d.calTarget)d.calTarget=2500;if(!d.dayLabels)d.dayLabels=DEFAULT_DAY_LABELS.map(x=>({...x}));return d}}catch(e){}return getDefault()}
-function saveD(d){try{localStorage.setItem(SK,JSON.stringify(d))}catch(e){}}
-
-const DC=createContext(null);
-function DP({children}){
-const[data,setData]=useState(getDefault);
-const[selWeek,setSelWeek]=useState(getWeekId());
-const[loaded,setLoaded]=useState(false);
-const cw=getWeekId();
-const isCW=selWeek===cw;
-useEffect(()=>{const d=loadD();ensureWeek(d,cw);setData({...d});saveD(d);setLoaded(true)},[]);
-
-const toggleTask=useCallback((catId,task,dayIdx)=>{setData(prev=>{let nx={...prev,weeks:{...prev.weeks}};ensureWeek(nx,selWeek);const wd={...nx.weeks[selWeek]};if(!wd.tasks[catId])wd.tasks[catId]={};if(!wd.tasks[catId][task]){const c=nx.categories.find(x=>x.id===catId);wd.tasks[catId][task]=new Array(c?.days||7).fill(false)}wd.tasks[catId]={...wd.tasks[catId]};wd.tasks[catId][task]=[...wd.tasks[catId][task]];wd.tasks[catId][task][dayIdx]=!wd.tasks[catId][task][dayIdx];wd.tasks={...wd.tasks};nx.weeks[selWeek]=wd;saveD(nx);return nx})},[selWeek]);
-const setMeta=useCallback((k,v)=>{setData(prev=>{const nx={...prev,weeks:{...prev.weeks}};ensureWeek(nx,selWeek);nx.weeks[selWeek]={...nx.weeks[selWeek],meta:{...nx.weeks[selWeek].meta,[k]:v}};saveD(nx);return nx})},[selWeek]);
-const setLog=useCallback((di,k,v)=>{setData(prev=>{let nx={...prev,weeks:{...prev.weeks}};ensureWeek(nx,selWeek);const logs={...nx.weeks[selWeek].logs};const ol=logs[di]||{};logs[di]={...ol,[k]:v};nx.weeks[selWeek]={...nx.weeks[selWeek],logs};saveD(nx);return nx})},[selWeek]);
-const resetWeek=useCallback(()=>{setData(prev=>{const nx={...prev,weeks:{...prev.weeks}};delete nx.weeks[selWeek];ensureWeek(nx,selWeek);saveD(nx);return nx})},[selWeek]);
-const deleteWeek=useCallback((wid)=>{setData(prev=>{const nx={...prev,weeks:{...prev.weeks}};delete nx.weeks[wid];saveD(nx);return nx})},[]);
-const updateCats=useCallback((cats)=>{setData(prev=>{const nx={...prev,categories:cats};saveD(nx);return nx})},[]);
-const addGoal=useCallback((cat,title,td)=>{setData(prev=>{const g={id:`g_${Date.now()}`,category:cat,title,progress:0,targetDate:td,createdAt:new Date().toISOString(),archived:false};const nx={...prev,goals:[...prev.goals,g]};saveD(nx);return nx})},[]);
-const setCalTarget=useCallback((v)=>{setData(prev=>{const nx={...prev,calTarget:v};saveD(nx);return nx})},[]);
-const setDayLabels=useCallback((labels)=>{setData(prev=>{const nx={...prev,dayLabels:labels};saveD(nx);return nx})},[]);
-const updGoalProg=useCallback((id,delta)=>{setData(prev=>{const goals=prev.goals.map(g=>{if(g.id!==id)return g;const np=Math.max(0,Math.min(100,g.progress+delta));return{...g,progress:np,completedAt:np>=100&&g.progress<100?new Date().toISOString():g.completedAt}});const nx={...prev,goals};saveD(nx);return nx})},[]);
-const updGoal=useCallback((id,title,td)=>{setData(prev=>{const goals=prev.goals.map(g=>g.id===id?{...g,title,targetDate:td}:g);const nx={...prev,goals};saveD(nx);return nx})},[]);
-const archGoal=useCallback((id)=>{setData(prev=>{const goals=prev.goals.map(g=>g.id===id?{...g,archived:true}:g);const nx={...prev,goals};saveD(nx);return nx})},[]);
-const delGoal=useCallback((id)=>{setData(prev=>{const goals=prev.goals.filter(g=>g.id!==id);const nx={...prev,goals};saveD(nx);return nx})},[]);
-
-return React.createElement(DC.Provider,{value:{data,currentWeek:cw,selectedWeek:selWeek,setSelectedWeek:setSelWeek,toggleTask,setMeta,setLog,resetWeek,updateCategories:updateCats,isCurrentWeek:isCW,loaded,deleteWeek,addGoal,updateGoalProgress:updGoalProg,updateGoal:updGoal,archiveGoal:archGoal,deleteGoal:delGoal,calTarget:data.calTarget,setCalTarget,dayLabels:data.dayLabels||DEFAULT_DAY_LABELS,setDayLabels}},children)}
-function useD(){const c=useContext(DC);if(!c)throw new Error('wrap');return c}
-
-function PBar({pct,color,height=7}){return(<div style={{height,backgroundColor:'rgba(255,255,255,0.06)',borderRadius:height,overflow:'hidden',width:'100%'}}><div style={{height,borderRadius:height,backgroundColor:color,width:`${pct}%`,transition:'width 0.4s ease'}}/></div>)}
-function CirProg({size,sw,progress,color=C.accent}){const r=(size-sw)/2;const circ=2*Math.PI*r;const off=circ-(Math.min(progress,100)/100)*circ;return(<div style={{width:size,height:size,position:'relative',display:'flex',alignItems:'center',justifyContent:'center'}}><svg width={size} height={size} style={{transform:'rotate(-90deg)',position:'absolute'}}><circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={sw}/><circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={sw} strokeDasharray={circ} strokeDashoffset={off} strokeLinecap="round" style={{transition:'stroke-dashoffset 0.5s ease'}}/></svg><span style={{fontSize:size*0.22,fontWeight:800,color:C.text,zIndex:1}}>{progress}%</span></div>)}
-function scoreLabel(p){if(p>=75)return'🔥 Crushing it!';if(p>=50)return'✨ Good';if(p>=25)return'💫 Push';return'🎯 Start'}
-
-const sty={sc:{padding:'0 16px'},ld:{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',color:C.accent,fontSize:16},cd:{backgroundColor:C.card,borderRadius:16,padding:16,border:`1px solid ${C.border}`},ib:{backgroundColor:C.inputBg,borderRadius:8,border:`1px solid ${C.border}`,color:C.text,fontSize:14,padding:12,width:'100%',boxSizing:'border-box',outline:'none',fontFamily:'inherit'},fl:{fontSize:12,color:C.sub,marginBottom:6,marginTop:10,textTransform:'uppercase',letterSpacing:0.5},ab:{flex:1,padding:'12px 0',borderRadius:10,backgroundColor:C.card,border:`1px solid ${C.border}`,fontSize:13,fontWeight:600,cursor:'pointer',textAlign:'center'},nb:{flex:1,padding:'10px 0',borderRadius:10,backgroundColor:C.card,border:`1px solid ${C.border}`,color:C.sub,fontSize:12,fontWeight:600,cursor:'pointer',textAlign:'center'},ib2:{background:'none',border:'none',fontSize:18,cursor:'pointer',padding:4},mo:{position:'fixed',top:0,left:0,right:0,bottom:0,backgroundColor:'rgba(0,0,0,0.7)',display:'flex',alignItems:'center',justifyContent:'center',zIndex:200,padding:20},mc:{backgroundColor:C.card,borderRadius:16,padding:20,border:`1px solid ${C.border}`,width:'100%',maxWidth:400}};
-
-// ===== TRACKER TAB =====
-function TrackerTab(){
-const{data,selectedWeek:sw,currentWeek:cw,isCurrentWeek:isCW,toggleTask,setMeta,resetWeek,loaded}=useD();
-const wd=useMemo(()=>{const d={...data};ensureWeek(d,sw);return d.weeks[sw]},[data,sw]);
-const ov=useMemo(()=>getOverallScore(wd,data.categories),[wd,data.categories]);
-const cs=useMemo(()=>data.categories.map(cat=>({...getCategoryScore(wd,cat),cat})),[wd,data.categories]);
-const streak=useMemo(()=>{let c=0,w=cw;while(data.weeks[w]){const s=getOverallScore(data.weeks[w],data.categories);if(s.pct>=50)c++;else break;w=getAdjacentWeek(w,-1)}return c},[data,cw]);
-const ti=getTodayIndex();
-const handleExport=()=>{const l=[`📊 WEEKLY PROGRESS REPORT`,getWeekRange(sw),'',`Overall: ${ov.done}/${ov.total} (${ov.pct}%)`,''];for(const c of cs){l.push(`${c.cat.icon} ${c.cat.name}: ${c.done}/${c.total} (${c.pct}%)`);for(const t of c.cat.tasks){const a=wd.tasks[c.cat.id]?.[t]||[];l.push(`  ${a.filter(Boolean).length>0?'✅':'⬜'} ${t}: ${a.filter(Boolean).length}/${c.cat.days}`)}l.push('')}navigator.clipboard?.writeText(l.join('\n')).then(()=>alert('Copied!')).catch(()=>alert(l.join('\n')))};
-if(!loaded)return <div style={sty.ld}>Loading...</div>;
-return(<div style={sty.sc}>
-<div style={{paddingTop:12,paddingBottom:8}}><h1 style={{fontSize:22,fontWeight:700,color:C.text,margin:0}}>All-in-1 Progress Tracker</h1><p style={{fontSize:13,color:C.sub,margin:'4px 0 0'}}>📍 {isCW?'Current Week':sw} • {getWeekRange(sw)}</p></div>
-<div style={{...sty.cd,display:'flex',alignItems:'center',gap:16,marginTop:12}}><div style={{flex:1}}><p style={{fontSize:12,color:C.sub,textTransform:'uppercase',letterSpacing:1,margin:0}}>Weekly Score</p><p style={{fontSize:36,fontWeight:800,color:C.text,margin:'4px 0'}}>{ov.done}<span style={{fontSize:20,fontWeight:400,color:C.sub}}>/{ov.total}</span></p>{streak>0&&<p style={{fontSize:12,color:C.accent,margin:0}}>🔥 {streak} week streak!</p>}<div style={{display:'flex',gap:12,marginTop:8}}>{cs.map(c=><div key={c.cat.id} style={{display:'flex',alignItems:'center',gap:4}}><div style={{width:8,height:8,borderRadius:4,backgroundColor:c.cat.color}}/><span style={{fontSize:11,color:C.sub}}>{c.pct}%</span></div>)}</div></div><CirProg size={80} sw={6} progress={ov.pct}/></div>
-{ov.pct>=80&&isCW&&<div style={{backgroundColor:'#64ffda18',borderRadius:12,padding:12,marginTop:12,textAlign:'center',border:`1px solid ${C.accent}`}}><span style={{fontSize:14,color:C.accent,fontWeight:600}}>🎉 Amazing week! You're crushing it! 🎉</span></div>}
-{data.categories.map((cat,ci)=>{const sc=cs[ci];return(<div key={cat.id} style={{...sty.cd,marginTop:14}}><div style={{display:'flex',justifyContent:'space-between',marginBottom:10}}><div><span style={{fontSize:16,fontWeight:600,color:C.text}}>{cat.icon} <span style={{color:cat.color}}>{cat.name}</span></span><p style={{fontSize:11,color:C.sub,margin:'2px 0 0'}}>{cat.days} days • {cat.tasks.length} tasks/day</p></div><div style={{textAlign:'right'}}><p style={{fontSize:22,fontWeight:700,color:cat.color,margin:0}}>{sc.pct}%</p><p style={{fontSize:11,color:C.sub,margin:0}}>{sc.done}/{sc.total}</p></div></div><PBar pct={sc.pct} color={cat.color}/><div style={{overflowX:'auto',marginTop:12}}><table style={{borderCollapse:'collapse',minWidth:'100%'}}><thead><tr><th style={{textAlign:'left',fontSize:10,color:C.sub,fontWeight:600,padding:'4px 8px 4px 0',minWidth:100}}>Task</th>{DAYS.slice(0,cat.days).map((d,i)=>{const isToday=ti===i&&isCW;return<th key={i} style={{fontSize:10,color:isToday?C.accent:C.sub,fontWeight:isToday?700:600,padding:'4px 2px',minWidth:36,textAlign:'center',position:'relative',borderBottom:isToday?'2px solid #64ffda':'none'}}>{d}{isToday&&<span style={{display:'block',fontSize:7,color:C.accent,marginTop:1,letterSpacing:0.5}}>TODAY</span>}</th>})}</tr></thead><tbody>{cat.tasks.map(task=><tr key={task}><td style={{fontSize:11,color:C.text,padding:'3px 8px 3px 0',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',maxWidth:110}}>{task}</td>{Array.from({length:cat.days},(_,di)=>{const chk=wd.tasks[cat.id]?.[task]?.[di]||false;const isToday=di===ti&&isCW;return<td key={di} style={{textAlign:'center',padding:'3px 2px',backgroundColor:isToday?'rgba(100,255,218,0.04)':'transparent',borderRadius:isToday?6:0}}><button onClick={()=>isCW&&toggleTask(cat.id,task,di)} disabled={!isCW} style={{width:26,height:26,borderRadius:6,border:`1.5px solid ${chk?cat.color:isToday?'#64ffda50':C.border}`,backgroundColor:chk?cat.color:isToday?'#64ffda08':C.inputBg,cursor:isCW?'pointer':'default',opacity:isCW?1:0.5,display:'inline-flex',alignItems:'center',justifyContent:'center',color:'#fff',fontSize:14,fontWeight:700,transition:'all 0.15s ease',animation:isToday&&!chk?'todayGlow 3s ease-in-out infinite':'none'}}>{chk?'✓':''}</button></td>})}</tr>)}</tbody></table></div></div>)})}
-<div style={{...sty.cd,marginTop:14}}><h3 style={{fontSize:18,fontWeight:600,color:C.text,margin:'0 0 12px'}}>📝 Weekly Summary</h3>{cs.map(c=><div key={c.cat.id} style={{display:'flex',alignItems:'center',justifyContent:'space-between',borderLeft:`3px solid ${c.cat.color}`,paddingLeft:10,paddingTop:8,paddingBottom:8,marginBottom:6}}><span style={{fontSize:13,color:C.text}}>{c.cat.icon} {c.cat.name}</span><div style={{display:'flex',alignItems:'center',gap:8}}><span style={{fontSize:11,color:C.sub}}>{c.done}/{c.total}</span><span style={{backgroundColor:c.cat.color+'18',color:c.cat.color,padding:'3px 8px',borderRadius:8,fontSize:11,fontWeight:600}}>{scoreLabel(c.pct)}</span></div></div>)}<p style={{fontSize:12,color:C.sub,marginTop:14,marginBottom:6}}>Rate your week:</p><div style={{display:'flex',gap:4}}>{[1,2,3,4,5].map(s=><button key={s} onClick={()=>isCW&&setMeta('stars',s)} style={{fontSize:24,opacity:wd.meta.stars>=s?1:0.3,padding:8,background:'none',border:'none',cursor:'pointer'}}>⭐</button>)}</div><p style={{fontSize:12,color:C.sub,marginTop:14,marginBottom:6}}>Weekly reflection:</p><textarea style={{...sty.ib,minHeight:80,resize:'vertical'}} placeholder="How was your week? Kya seekha?..." value={wd.meta.reflection} onChange={e=>setMeta('reflection',e.target.value)} disabled={!isCW}/><p style={{fontSize:12,color:C.sub,marginTop:14,marginBottom:6}}>🎯 Next week's focus:</p><input style={sty.ib} placeholder="One priority for next week..." value={wd.meta.focus} onChange={e=>setMeta('focus',e.target.value)} disabled={!isCW}/></div>
-<div style={{display:'flex',gap:10,marginTop:16,marginBottom:40}}><button onClick={()=>{if(confirm('Clear all data for this week?'))resetWeek()}} style={{...sty.ab,borderColor:C.danger,color:C.danger}}>🔄 Reset</button><button onClick={handleExport} style={{...sty.ab,borderColor:C.accent,color:C.accent}}>📤 Export</button></div>
-</div>)}
-
-// ===== DAILY LOG =====
-function DailyLogTab(){
-const{data,selectedWeek:sw,isCurrentWeek:isCW,setLog,loaded,calTarget,setCalTarget,dayLabels,setDayLabels}=useD();
-const[openDays,setOpenDays]=useState({[getTodayIndex()]:true});
-const[showCalSet,setShowCalSet]=useState(false);
-const[showDayEdit,setShowDayEdit]=useState(false);
-const[tmpLabels,setTmpLabels]=useState(dayLabels.map(d=>({...d})));
-const ti=getTodayIndex();
-const wd=useMemo(()=>{const d={...data};ensureWeek(d,sw);return d.weeks[sw]},[data,sw]);
-const saveDayLabels=()=>{setDayLabels(tmpLabels);setShowDayEdit(false)};
-if(!loaded)return <div style={sty.ld}>Loading...</div>;
-return(<div style={sty.sc}><h1 style={{fontSize:22,fontWeight:700,color:C.text,margin:0,paddingTop:12}}>📋 Daily Log</h1><p style={{fontSize:13,color:C.sub,margin:'0 0 12px'}}>Track your mood, energy & notes</p>
-<div style={{display:'flex',gap:8,marginBottom:12}}><div style={{...sty.cd,flex:1,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px'}}><div><p style={{fontSize:10,color:C.sub,margin:0,textTransform:'uppercase',letterSpacing:0.5}}>Maintenance Cal</p><p style={{fontSize:18,fontWeight:700,color:C.accent,margin:'2px 0 0'}}>{calTarget}</p></div><button onClick={()=>setShowCalSet(!showCalSet)} style={{padding:'6px 12px',borderRadius:8,backgroundColor:C.inputBg,border:`1px solid ${C.border}`,color:C.sub,fontSize:11,fontWeight:600,cursor:'pointer'}}>{showCalSet?'Done':'Edit'}</button></div><button onClick={()=>{setTmpLabels(dayLabels.map(d=>({...d})));setShowDayEdit(!showDayEdit)}} style={{...sty.cd,padding:'10px 14px',border:`1px solid ${showDayEdit?C.accent:C.border}`,cursor:'pointer',display:'flex',alignItems:'center',gap:6}}><span style={{fontSize:16}}>🏷️</span><span style={{fontSize:11,color:showDayEdit?C.accent:C.sub,fontWeight:600}}>Day Labels</span></button></div>
-{showCalSet&&<div style={{...sty.cd,marginBottom:12}}><p style={sty.fl}>Daily calorie target</p><input type="number" style={sty.ib} placeholder="2500" value={calTarget} onChange={e=>setCalTarget(parseInt(e.target.value)||0)}/></div>}
-{showDayEdit&&<div style={{...sty.cd,marginBottom:12}}><p style={{fontSize:13,fontWeight:600,color:C.text,margin:'0 0 10px'}}>🏷️ Customize Day Labels</p>{DAYS.map((dn,i)=><div key={i} style={{display:'flex',gap:8,marginBottom:6,alignItems:'center'}}><span style={{fontSize:12,color:C.sub,fontWeight:600,width:32}}>{dn}</span><input style={{...sty.ib,width:36,textAlign:'center',fontSize:16,padding:8,flex:'none'}} placeholder="🦵" value={tmpLabels[i]?.icon||''} onChange={e=>{const n=[...tmpLabels];n[i]={...n[i],icon:e.target.value};setTmpLabels(n)}} maxLength={2}/><input style={{...sty.ib,flex:1,padding:8,fontSize:13}} placeholder="e.g. Leg Day" value={tmpLabels[i]?.label||''} onChange={e=>{const n=[...tmpLabels];n[i]={...n[i],label:e.target.value};setTmpLabels(n)}}/></div>)}<button onClick={saveDayLabels} style={{width:'100%',padding:10,borderRadius:8,backgroundColor:C.accent,border:'none',color:C.bg,fontSize:13,fontWeight:700,cursor:'pointer',marginTop:8}}>Save Labels</button></div>}
-{DAYS.map((dn,idx)=>{const isO=openDays[idx];const isT=idx===ti&&isCW;const log=wd.logs[idx]||{};const calDiff=log.calories!==undefined?(log.calories-calTarget):null;const dl=dayLabels[idx]||{};const hasLabel=dl.icon||dl.label;return(<div key={idx} style={{...sty.cd,marginBottom:10,padding:0,overflow:'hidden'}}><button onClick={()=>setOpenDays(p=>({...p,[idx]:!p[idx]}))} style={{display:'flex',alignItems:'center',justifyContent:'space-between',width:'100%',padding:14,background:'none',border:'none',cursor:'pointer'}}><div style={{display:'flex',alignItems:'center',gap:8}}><span style={{fontSize:16,fontWeight:600,color:C.text}}>{dn}</span>{hasLabel&&<span style={{fontSize:12,color:C.accent,fontWeight:500}}>{dl.icon} {dl.label}</span>}{isT&&<span style={{backgroundColor:C.accent,color:C.bg,padding:'2px 8px',borderRadius:6,fontSize:10,fontWeight:700}}>TODAY</span>}</div><div style={{display:'flex',alignItems:'center',gap:8}}>{log.mood!==undefined&&<span style={{fontSize:18}}>{MOODS[log.mood]}</span>}{log.energy!==undefined&&<span style={{fontSize:11,color:C.sub}}>⚡{log.energy+1}</span>}{log.money>0&&<span style={{fontSize:11,color:C.sub}}>💰${log.money}</span>}{calDiff!==null&&<span style={{fontSize:11,fontWeight:600,color:calDiff>0?'#f59e0b':calDiff<0?'#10b981':C.sub}}>{calDiff>0?'+':''}{calDiff}</span>}<span style={{fontSize:10,color:C.sub}}>{isO?'▲':'▼'}</span></div></button>
-{isO&&<div style={{padding:'12px 14px 16px',borderTop:`1px solid ${C.border}`}}><p style={sty.fl}>How are you feeling?</p><div style={{display:'flex',gap:8}}>{MOODS.map((em,mi)=><button key={mi} onClick={()=>isCW&&setLog(idx,'mood',mi)} disabled={!isCW} style={{width:44,height:44,borderRadius:12,fontSize:22,backgroundColor:log.mood===mi?'#64ffda18':C.inputBg,border:`1px solid ${log.mood===mi?C.accent:C.border}`,cursor:isCW?'pointer':'default',display:'inline-flex',alignItems:'center',justifyContent:'center'}}>{em}</button>)}</div><p style={sty.fl}>Energy Level</p><div style={{display:'flex',gap:8}}>{[1,2,3,4,5].map(e=><button key={e} onClick={()=>isCW&&setLog(idx,'energy',e-1)} disabled={!isCW} style={{width:44,height:44,borderRadius:12,fontSize:16,fontWeight:700,backgroundColor:log.energy===e-1?'#64ffda18':C.inputBg,border:`1px solid ${log.energy===e-1?C.accent:C.border}`,color:log.energy===e-1?C.accent:C.sub,cursor:isCW?'pointer':'default',display:'inline-flex',alignItems:'center',justifyContent:'center'}}>{e}</button>)}</div><p style={sty.fl}>Calories Eaten</p><input type="number" style={sty.ib} placeholder={`Target: ${calTarget}`} value={log.calories!==undefined?log.calories:''} onChange={e=>setLog(idx,'calories',parseFloat(e.target.value)||0)} disabled={!isCW}/>{calDiff!==null&&<p style={{fontSize:12,fontWeight:600,color:calDiff>0?'#f59e0b':calDiff<0?'#10b981':C.accent,margin:'6px 0 0'}}>{calDiff>0?`⚠️ ${calDiff} cal over`:calDiff<0?`✅ ${Math.abs(calDiff)} cal under`:'✅ On target!'}</p>}<p style={sty.fl}>Money Saved (AUD)</p><input type="number" style={sty.ib} placeholder="0" value={log.money!==undefined?log.money:''} onChange={e=>setLog(idx,'money',parseFloat(e.target.value)||0)} disabled={!isCW}/><p style={sty.fl}>Journal</p><textarea style={{...sty.ib,minHeight:80,resize:'vertical'}} placeholder={JOURNAL_PROMPTS[idx%JOURNAL_PROMPTS.length]} value={log.note||''} onChange={e=>setLog(idx,'note',e.target.value)} disabled={!isCW}/></div>}</div>)})}
-<div style={{height:40}}/></div>)}
-
-// ===== HISTORY & GOALS =====
-function HistoryTab(){
-const{data,selectedWeek:sw,setSelectedWeek:setSW,currentWeek:cw,loaded,deleteWeek,addGoal,updateGoal:updG,archiveGoal:archG,deleteGoal:delG}=useD();
-const[showGF,setShowGF]=useState(false);const[gCat,setGCat]=useState('health');const[gTitle,setGTitle]=useState('');const[gDate,setGDate]=useState('');const[editG,setEditG]=useState(null);const[showArch,setShowArch]=useState(false);
-const sorted=useMemo(()=>Object.keys(data.weeks).sort().reverse(),[data.weeks]);
-const active=useMemo(()=>data.goals.filter(g=>!g.archived),[data.goals]);
-const archived=useMemo(()=>data.goals.filter(g=>g.archived),[data.goals]);
-const daysLeft=(ds)=>Math.ceil((new Date(ds).getTime()-new Date().getTime())/86400000);
-const autoProgress=(g)=>{const created=new Date(g.createdAt);const target=new Date(g.targetDate);const now=new Date();const totalDays=Math.max(1,Math.ceil((target.getTime()-created.getTime())/86400000));const elapsed=Math.ceil((now.getTime()-created.getTime())/86400000);return Math.min(100,Math.max(0,Math.round((elapsed/totalDays)*100)))};
-const handleAdd=()=>{if(!gTitle.trim()){alert('Enter a goal title');return}if(!gDate.trim()){alert('Enter a target date');return}if(editG)updG(editG,gTitle.trim(),gDate.trim());else addGoal(gCat,gTitle.trim(),gDate.trim());setGTitle('');setGDate('');setShowGF(false);setEditG(null)};
-if(!loaded)return <div style={sty.ld}>Loading...</div>;
-return(<div style={sty.sc}><h1 style={{fontSize:22,fontWeight:700,color:C.text,margin:0,paddingTop:12,marginBottom:6}}>📊 History & Goals</h1>
-<p style={{fontSize:13,fontWeight:700,color:C.accent,letterSpacing:1,textTransform:'uppercase',margin:'8px 0 10px'}}>🎯 MY GOALS</p>
-{GOAL_CATEGORIES.map(gc=>{const goal=active.find(g=>g.category===gc.id);if(!goal)return<button key={gc.id} onClick={()=>{setGCat(gc.id);setEditG(null);setGTitle('');setGDate('');setShowGF(true)}} style={{...sty.cd,display:'flex',alignItems:'center',gap:10,marginBottom:8,border:`1px dashed ${gc.color}40`,cursor:'pointer',width:'100%',textAlign:'left'}}><span style={{fontSize:24}}>{gc.icon}</span><span style={{fontSize:14,fontWeight:600,color:gc.color}}>Set {gc.name} Goal</span></button>;const dl=daysLeft(goal.targetDate);const prog=autoProgress(goal);const totalDays=Math.max(1,Math.ceil((new Date(goal.targetDate).getTime()-new Date(goal.createdAt).getTime())/86400000));const elapsed=Math.min(totalDays,Math.max(0,Math.ceil((new Date().getTime()-new Date(goal.createdAt).getTime())/86400000)));return(<div key={goal.id} style={{...sty.cd,marginBottom:10,borderLeft:`4px solid ${gc.color}`}}><div style={{display:'flex',justifyContent:'space-between'}}><div><p style={{fontSize:11,color:C.sub,margin:0}}>{gc.icon} {gc.name}</p><p style={{fontSize:16,fontWeight:600,color:C.text,margin:'2px 0'}}>{goal.title}</p><p style={{fontSize:12,color:dl<0?C.danger:dl<=7?'#f59e0b':C.accent,margin:0}}>{dl>=0?`${dl} days left`:`${Math.abs(dl)} days overdue`}</p></div><div style={{display:'flex',gap:12}}><button onClick={()=>{setEditG(goal.id);setGCat(goal.category);setGTitle(goal.title);setGDate(goal.targetDate);setShowGF(true)}} style={sty.ib2}>✏️</button><button onClick={()=>{if(confirm('Archive?'))archG(goal.id)}} style={sty.ib2}>📦</button></div></div><div style={{display:'flex',alignItems:'center',gap:8,marginTop:10}}><div style={{flex:1}}><PBar pct={prog} color={gc.color} height={8}/></div><span style={{fontSize:14,fontWeight:700,color:gc.color,minWidth:40,textAlign:'right'}}>{prog}%</span></div><p style={{fontSize:11,color:C.sub,margin:'6px 0 0'}}>Day {elapsed} of {totalDays}</p>{prog>=100&&<p style={{fontSize:13,fontWeight:600,color:C.accent,marginTop:6,textAlign:'center'}}>⏰ Deadline reached!</p>}</div>)})}
-{archived.length>0&&<button onClick={()=>setShowArch(!showArch)} style={{background:'none',border:'none',color:C.sub,fontSize:13,cursor:'pointer',padding:'10px 0',width:'100%',textAlign:'center'}}>📜 Goal History ({archived.length}) {showArch?'▲':'▼'}</button>}
-{showArch&&archived.map(g=>{const ci=GOAL_CATEGORIES.find(c=>c.id===g.category)||GOAL_CATEGORIES[0];return<div key={g.id} style={{...sty.cd,marginBottom:6,borderLeft:`3px solid ${ci.color}`,opacity:0.7}}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}><div><p style={{fontSize:10,color:C.sub,margin:0}}>{ci.icon} {ci.name}</p><p style={{fontSize:14,color:C.text,margin:0}}>{g.title}</p><p style={{fontSize:10,color:C.sub,margin:'2px 0 0'}}>{g.progress}%</p></div><button onClick={()=>delG(g.id)} style={sty.ib2}>🗑</button></div></div>})}
-<p style={{fontSize:13,fontWeight:700,color:C.accent,letterSpacing:1,textTransform:'uppercase',margin:'24px 0 10px'}}>📅 WEEK HISTORY</p>
-<div style={{display:'flex',gap:8,marginBottom:12}}><button onClick={()=>setSW(getAdjacentWeek(sw,-1))} style={sty.nb}>◀ Prev</button><button onClick={()=>setSW(cw)} style={{...sty.nb,borderColor:C.accent,color:C.accent}}>Current</button><button onClick={()=>setSW(getAdjacentWeek(sw,1))} style={sty.nb}>Next ▶</button></div>
-{sorted.length===0?<div style={{textAlign:'center',paddingTop:30}}><p style={{fontSize:36}}>📅</p><p style={{fontSize:16,fontWeight:600,color:C.text}}>No history yet</p></div>:sorted.map(wid=>{const w=data.weeks[wid];const o=getOverallScore(w,data.categories);const isC=wid===cw;const isS=wid===sw;return(<div key={wid} style={{...sty.cd,marginBottom:10,borderColor:isS?C.accent:isC?'#64ffda60':C.border}}><div style={{display:'flex',justifyContent:'space-between'}}><div onClick={()=>setSW(wid)} style={{cursor:'pointer',flex:1}}><div style={{display:'flex',alignItems:'center',gap:6}}><span style={{fontSize:14,fontWeight:700,color:C.text}}>{wid}</span>{isC&&<span style={{backgroundColor:C.accent,color:C.bg,padding:'2px 6px',borderRadius:4,fontSize:9,fontWeight:700}}>CURRENT</span>}</div><p style={{fontSize:12,color:C.sub,margin:'2px 0 0'}}>{getWeekRange(wid)}</p></div><div style={{textAlign:'right'}}><p style={{fontSize:22,fontWeight:700,color:o.pct>=50?C.accent:C.text,margin:0}}>{o.pct}%</p><button onClick={()=>{if(confirm(`Delete ${wid}?`))deleteWeek(wid)}} style={sty.ib2}>🗑</button></div></div><div style={{marginTop:6}}>{data.categories.map(cat=>{const s=getCategoryScore(w,cat);return<div key={cat.id} style={{display:'flex',alignItems:'center',gap:6,marginTop:4}}><span style={{fontSize:12,width:18}}>{cat.icon}</span><div style={{flex:1}}><PBar pct={s.pct} color={cat.color} height={6}/></div><span style={{fontSize:10,fontWeight:600,color:cat.color,minWidth:30,textAlign:'right'}}>{s.pct}%</span></div>})}</div></div>)})}
-{showGF&&<div style={sty.mo} onClick={()=>{setShowGF(false);setEditG(null)}}><div style={sty.mc} onClick={e=>e.stopPropagation()}><h3 style={{fontSize:18,fontWeight:700,color:C.text,margin:'0 0 12px'}}>{editG?'✏️ Edit Goal':'🎯 New Goal'}</h3>{!editG&&<><p style={sty.fl}>CATEGORY</p><div style={{display:'flex',gap:8}}>{GOAL_CATEGORIES.map(gc=><button key={gc.id} onClick={()=>setGCat(gc.id)} style={{flex:1,padding:'10px 0',borderRadius:10,backgroundColor:gCat===gc.id?gc.color+'20':C.inputBg,border:`1px solid ${gCat===gc.id?gc.color:C.border}`,textAlign:'center',cursor:'pointer'}}><p style={{fontSize:20,margin:0}}>{gc.icon}</p><p style={{fontSize:10,color:gCat===gc.id?gc.color:C.sub,margin:'2px 0 0'}}>{gc.name}</p></button>)}</div></>}<p style={sty.fl}>GOAL TITLE</p><input style={sty.ib} placeholder="e.g., Lose 10kg, Save $5000" value={gTitle} onChange={e=>setGTitle(e.target.value)}/><p style={sty.fl}>TARGET DATE</p><input type="date" style={sty.ib} value={gDate} onChange={e=>setGDate(e.target.value)}/><div style={{display:'flex',gap:10,marginTop:16}}><button onClick={()=>{setShowGF(false);setEditG(null)}} style={{flex:1,padding:12,borderRadius:8,backgroundColor:C.inputBg,border:'none',color:C.sub,fontSize:14,fontWeight:600,cursor:'pointer'}}>Cancel</button><button onClick={handleAdd} style={{flex:2,padding:12,borderRadius:8,backgroundColor:C.accent,border:'none',color:C.bg,fontSize:14,fontWeight:700,cursor:'pointer'}}>{editG?'Update':'Set Goal'}</button></div></div></div>}
-<div style={{height:40}}/></div>)}
-
-// ===== SETTINGS =====
-function SettingsPanel({onClose}){
-const{data,updateCategories:updC}=useD();
-const[cats,setCats]=useState([]);const[ntI,setNtI]=useState({});
-useEffect(()=>{setCats(data.categories.map(c=>({...c,tasks:[...c.tasks]})))},[data.categories]);
-const uC=(i,k,v)=>{setCats(p=>{const n=[...p];n[i]={...n[i],[k]:v};return n})};
-const rT=(ci,ti)=>{setCats(p=>{const n=[...p];n[ci]={...n[ci],tasks:n[ci].tasks.filter((_,i)=>i!==ti)};return n})};
-const aT=(ci)=>{const tn=(ntI[ci]||'').trim();if(!tn)return;setCats(p=>{const n=[...p];n[ci]={...n[ci],tasks:[...n[ci].tasks,tn]};return n});setNtI(p=>({...p,[ci]:''}))};
-const aC=()=>{const id=`c_${Date.now()}`;const used=cats.map(c=>c.color);const col=CATEGORY_COLORS.find(c=>!used.includes(c))||'#3b82f6';setCats(p=>[...p,{id,name:'New Category',icon:'📌',color:col,days:7,tasks:['New Task']}])};
-const save=()=>{updC(cats);onClose()};
-return(<div style={sty.sc}><div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:'max(20px, env(safe-area-inset-top, 20px))',marginBottom:16}}><h2 style={{fontSize:20,fontWeight:700,color:C.text,margin:0}}>⚙️ Settings</h2><button onClick={save} style={{backgroundColor:C.accent,color:C.bg,padding:'10px 18px',borderRadius:8,border:'none',fontSize:14,fontWeight:700,cursor:'pointer',flexShrink:0}}>Save & Close</button></div>
-<p style={{fontSize:14,fontWeight:600,color:C.accent,textTransform:'uppercase',letterSpacing:1,margin:'0 0 12px'}}>Categories</p>
-{cats.map((cat,ci)=><div key={cat.id} style={{...sty.cd,marginBottom:14}}><div style={{display:'flex',gap:8,marginBottom:12}}><input style={{...sty.ib,width:48,textAlign:'center',fontSize:22,flex:'none'}} value={cat.icon} onChange={e=>uC(ci,'icon',e.target.value)} maxLength={2}/><input style={{...sty.ib,flex:1,fontSize:16}} value={cat.name} onChange={e=>uC(ci,'name',e.target.value)}/></div><p style={sty.fl}>Days per week</p><div style={{display:'flex',gap:8,marginBottom:12}}>{[5,6,7].map(d=><button key={d} onClick={()=>uC(ci,'days',d)} style={{padding:'8px 16px',borderRadius:8,backgroundColor:cat.days===d?C.accent:C.inputBg,border:`1px solid ${cat.days===d?C.accent:C.border}`,color:cat.days===d?C.bg:C.sub,fontSize:14,fontWeight:600,cursor:'pointer'}}>{d}</button>)}</div><p style={sty.fl}>Color</p><div style={{display:'flex',gap:8,marginBottom:14,flexWrap:'wrap'}}>{CATEGORY_COLORS.map(col=><button key={col} onClick={()=>uC(ci,'color',col)} style={{width:32,height:32,borderRadius:16,backgroundColor:col,border:`2px solid ${cat.color===col?'#fff':'transparent'}`,cursor:'pointer'}}/>)}</div><p style={sty.fl}>Tasks</p>{cat.tasks.map((t,ti)=><div key={ti} style={{display:'flex',alignItems:'center',justifyContent:'space-between',backgroundColor:C.inputBg,borderRadius:8,padding:'10px 12px',marginBottom:4}}><span style={{fontSize:14,color:C.text}}>{t}</span><button onClick={()=>rT(ci,ti)} style={{...sty.ib2,color:C.danger}}>✕</button></div>)}<div style={{display:'flex',gap:8,marginTop:8}}><input style={{...sty.ib,flex:1,height:40}} placeholder="New task..." value={ntI[ci]||''} onChange={e=>setNtI(p=>({...p,[ci]:e.target.value}))} onKeyDown={e=>e.key==='Enter'&&aT(ci)}/><button onClick={()=>aT(ci)} style={{height:40,padding:'0 14px',borderRadius:8,backgroundColor:C.accent,border:'none',color:C.bg,fontSize:13,fontWeight:700,cursor:'pointer'}}>+ Add</button></div><button onClick={()=>{if(confirm(`Delete "${cat.name}"?`))setCats(p=>p.filter((_,i)=>i!==ci))}} style={{background:'none',border:'none',color:C.danger,fontSize:13,cursor:'pointer',marginTop:12,padding:8,width:'100%',textAlign:'center'}}>🗑 Delete Category</button></div>)}
-<button onClick={aC} style={{...sty.cd,width:'100%',textAlign:'center',border:`1px dashed ${C.accent}`,cursor:'pointer',color:C.accent,fontSize:14,fontWeight:600}}>+ Add New Category</button>
-<p style={{fontSize:14,fontWeight:600,color:C.accent,textTransform:'uppercase',letterSpacing:1,margin:'24px 0 12px'}}>Data Management</p>
-<div style={{...sty.cd,marginBottom:14}}>
-<p style={{fontSize:13,color:C.text,fontWeight:600,marginBottom:4}}>📥 Backup Data</p>
-<p style={{fontSize:11,color:C.sub,marginBottom:10}}>Download all your progress as a file. Do this regularly!</p>
-<button onClick={()=>{const raw=localStorage.getItem(SK);if(!raw){alert('No data found!');return}const blob=new Blob([raw],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`progress-tracker-backup-${new Date().toISOString().split('T')[0]}.json`;a.click();URL.revokeObjectURL(url)}} style={{width:'100%',padding:12,borderRadius:8,backgroundColor:'#10b98120',border:'1px solid #10b981',color:'#10b981',fontSize:14,fontWeight:700,cursor:'pointer',marginBottom:14}}>📥 Download Backup</button>
-<p style={{fontSize:13,color:C.text,fontWeight:600,marginBottom:4}}>📤 Restore Data</p>
-<p style={{fontSize:11,color:C.sub,marginBottom:10}}>Load data from a backup file. This will replace all current data.</p>
-<button onClick={()=>{const inp=document.createElement('input');inp.type='file';inp.accept='.json';inp.onchange=(e)=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=(ev)=>{try{const d=JSON.parse(ev.target.result);if(!d.categories||!d.weeks){alert('Invalid backup file!');return}if(!confirm('This will replace ALL current data. Are you sure?'))return;localStorage.setItem(SK,JSON.stringify(d));window.location.reload()}catch(err){alert('Error reading file: '+err.message)}};reader.readAsText(file)};inp.click()}} style={{width:'100%',padding:12,borderRadius:8,backgroundColor:'#f59e0b20',border:'1px solid #f59e0b',color:'#f59e0b',fontSize:14,fontWeight:700,cursor:'pointer'}}>📤 Restore from Backup</button>
+<div class="ctr" id="app"></div>
+<div class="bottom-bar" id="bbar">
+  <button class="bb danger" onclick="rw()">🔄 Reset</button>
+  <button class="bb exp" onclick="exportWeek()">📤 Export</button>
+  <button class="bb" onclick="sS()">⚙️ Settings</button>
 </div>
-<div style={{height:60}}/></div>)}
+<script>
+const D=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const M=["😫","😔","😐","🙂","😊","😄","🔥"];
+const COLORS=["#10b981","#8b5cf6","#f59e0b","#ef4444","#3b82f6","#ec4899"];
+const WORKOUT_TYPES=["🏋️ Gym","🏃 Cardio","🧘 Home","🚶 Walk","😴 Rest Day"];
+const STRESS_LABELS=["","😌 Chill","🙂 Okay","😐 Mild","😰 Stressed","🔥 Overwhelmed"];
+const PROMPTS=["What made you grateful today?","One thing you learned today?","One thing you did for yourself?","How did you handle stress today?","Did you connect with someone meaningful?","What's one small win from today?","If you could redo one thing today, what would it be?"];
 
-// ===== MAIN APP =====
-const TABS=[{id:'tracker',label:'📊 Tracker'},{id:'dailylog',label:'📋 Log'},{id:'history',label:'📅 History'}];
-function App(){
-const[tab,setTab]=useState('tracker');
-const[showS,setShowS]=useState(false);
-return(<DP><div style={{minHeight:'100vh',backgroundColor:C.bg,color:C.text,maxWidth:480,margin:'0 auto',position:'relative',display:'flex',flexDirection:'column'}}><div style={{flex:1,overflow:'auto',paddingBottom:70}}>{showS?<SettingsPanel onClose={()=>setShowS(false)}/>:<>{tab==='tracker'&&<TrackerTab/>}{tab==='dailylog'&&<DailyLogTab/>}{tab==='history'&&<HistoryTab/>}</>}</div>
-{!showS&&<button onClick={()=>setShowS(true)} style={{position:'fixed',bottom:76,right:'calc(50% - 220px)',width:44,height:44,borderRadius:22,backgroundColor:C.card,border:`1px solid ${C.border}`,color:C.sub,fontSize:18,cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',zIndex:50,boxShadow:'0 2px 8px rgba(0,0,0,0.3)'}}>⚙️</button>}
-<div style={{position:'fixed',bottom:0,left:'50%',transform:'translateX(-50%)',width:'100%',maxWidth:480,display:'flex',backgroundColor:'#0d1220',borderTop:`1px solid ${C.border}`,paddingBottom:'max(10px, env(safe-area-inset-bottom, 10px))',zIndex:100}}>{TABS.map(t=><button key={t.id} onClick={()=>{setTab(t.id);setShowS(false)}} style={{flex:1,padding:'14px 0',background:'none',border:'none',color:tab===t.id&&!showS?C.accent:C.sub,fontSize:14,fontWeight:tab===t.id&&!showS?700:500,cursor:'pointer',transition:'color 0.2s'}}>{t.label}</button>)}</div>
-</div></DP>)}
+let S=load();
+let openDays={};
+let confettiShown={};
 
-try{ReactDOM.createRoot(document.getElementById('root')).render(<App/>);document.getElementById('fallback').style.display='none'}catch(e){document.getElementById('fallback').innerHTML='<p style="font-size:20px;color:#ff6b6b;">Error loading app</p><p style="color:#7c8aa0;font-size:13px;margin-top:8px;">'+e.message+'</p>';document.getElementById('fallback').style.display='block';console.error(e)}
+function def(){return{cats:[
+  {id:"fitness",l:"Fitness",e:"💪",d:7,c:"#10b981",t:["Hit Step Goal","Drink 2L Water","No Junk Food","Stretch / Mobility"]},
+  {id:"mental",l:"Mindset & Growth",e:"🧠",d:7,c:"#8b5cf6",t:["Morning Intention Set","Read / Learn 20min","Reach Out to Someone","Limit Phone Before Bed"]},
+  {id:"financial",l:"Financial Habits",e:"💰",d:6,c:"#f59e0b",t:["Go to Work","Track Daily Spend","Do One Career Step"]}
+],wk:{},mt:{},v:"tracker",sw:null}}
+
+function load(){try{const s=localStorage.getItem("pt_jashan_v2");if(!s)return def();const d=JSON.parse(s);if(!d.cats)return def();return{...def(),...d}}catch(e){return def()}}
+function save(){try{localStorage.setItem("pt_jashan_v2",JSON.stringify(S))}catch(e){}}
+
+// WEEK UTILS
+function wid(dt=new Date()){const d=new Date(dt);d.setHours(0,0,0,0);d.setDate(d.getDate()+3-((d.getDay()+6)%7));const w1=new Date(d.getFullYear(),0,4);const wn=1+Math.round(((d-w1)/864e5-3+((w1.getDay()+6)%7))/7);return d.getFullYear()+"-W"+String(wn).padStart(2,"0")}
+function wr(w){try{const[y,ws]=w.split("-W");const j=new Date(+y,0,4);const dw=j.getDay()||7;const m=new Date(j);m.setDate(j.getDate()-dw+1+(+ws-1)*7);const s=new Date(m);s.setDate(m.getDate()+6);const f=d=>d.toLocaleDateString("en-AU",{day:"numeric",month:"short"});return f(m)+" — "+f(s)}catch(e){return w}}
+function ew(w){if(!w)return;if(!S.wk[w]){S.wk[w]={};S.cats.forEach(c=>{S.wk[w][c.id]={};c.t.forEach(t=>{S.wk[w][c.id][t]=Array(c.d).fill(false)})})}if(!S.mt[w])S.mt[w]={};if(!S.mt[w].dl)S.mt[w].dl={}}
+function getTodayIdx(){const d=new Date().getDay();return d===0?6:d-1}
+
+// SCORING
+function gs(wd,cat){if(!wd||!cat)return{dn:0,tl:0,p:0};let dn=0,tl=0;cat.t.forEach(t=>{const a=wd[cat.id]?.[t]||[];for(let i=0;i<cat.d;i++){tl++;if(a[i])dn++}});return{dn,tl,p:tl?Math.round(dn/tl*100):0}}
+function go(wd){if(!wd)return{dn:0,tl:0,p:0};let dn=0,tl=0;S.cats.forEach(c=>{const s=gs(wd,c);dn+=s.dn;tl+=s.tl});return{dn,tl,p:tl?Math.round(dn/tl*100):0}}
+function stk(){const ws=Object.keys(S.wk).sort().reverse();let s=0;for(const w of ws){if(go(S.wk[w]).p>=50)s++;else break}return s}
+function getBestWeek(){const ws=Object.keys(S.wk);let best=null,bp=0;ws.forEach(w=>{const p=go(S.wk[w]).p;if(p>bp){bp=p;best=w}});return{week:best,pct:bp}}
+
+// HABIT STREAKS — count consecutive days a task was done ending today
+function getTaskStreak(catId, task){
+  const today=getTodayIdx();
+  const wd=S.wk[CW]||{};
+  const arr=wd[catId]?.[task]||[];
+  let streak=0;
+  for(let i=today;i>=0;i--){
+    if(arr[i])streak++;
+    else break;
+  }
+  // also check previous weeks
+  if(streak===today+1){
+    const ws=Object.keys(S.wk).sort().reverse();
+    const ci=ws.indexOf(CW);
+    if(ci<ws.length-1){
+      const pw=ws[ci+1];
+      const pwd=S.wk[pw]||{};
+      const parr=pwd[catId]?.[task]||[];
+      const cat=S.cats.find(c=>c.id===catId);
+      if(cat){
+        for(let i=cat.d-1;i>=0;i--){
+          if(parr[i])streak++;
+          else break;
+        }
+      }
+    }
+  }
+  return streak;
+}
+
+// SLEEP CALC
+function calcSleep(bed, wake){
+  if(!bed||!wake)return null;
+  try{
+    const [bh,bm]=bed.split(":").map(Number);
+    const [wh,wm]=wake.split(":").map(Number);
+    let mins=(wh*60+wm)-(bh*60+bm);
+    if(mins<0)mins+=24*60;
+    const h=Math.floor(mins/60);
+    const m=mins%60;
+    return h+"h "+(m>0?m+"m":"");
+  }catch(e){return null}
+}
+
+function avgSleepWeek(){
+  const dl=(S.mt[CW]||{}).dl||{};
+  let total=0,count=0;
+  D.forEach((_,i)=>{
+    const bed=dl["bed_"+i],wake=dl["wake_"+i];
+    if(!bed||!wake)return;
+    const [bh,bm]=bed.split(":").map(Number);
+    const [wh,wm]=wake.split(":").map(Number);
+    let mins=(wh*60+wm)-(bh*60+bm);
+    if(mins<0)mins+=24*60;
+    total+=mins;count++;
+  });
+  if(!count)return null;
+  const avg=total/count;
+  return Math.floor(avg/60)+"h "+(Math.round(avg%60)>0?Math.round(avg%60)+"m":"");
+}
+
+function avgStressWeek(){
+  const dl=(S.mt[CW]||{}).dl||{};
+  let total=0,count=0;
+  D.forEach((_,i)=>{
+    const v=dl["stress_"+i];
+    if(v!==undefined&&v!==null){total+=Number(v);count++;}
+  });
+  if(!count)return null;
+  return Math.round(total/count*10)/10;
+}
+
+// CONFETTI
+function fireConfetti(){const wrap=document.createElement("div");wrap.className="confetti-wrap";const cols=["#64ffda","#10b981","#f59e0b","#8b5cf6","#ec4899","#3b82f6","#ef4444","#fff"];for(let i=0;i<60;i++){const p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.background=cols[Math.floor(Math.random()*cols.length)];p.style.width=(Math.random()*8+5)+"px";p.style.height=(Math.random()*8+5)+"px";p.style.borderRadius=Math.random()>0.5?"50%":"2px";p.style.animationDuration=(Math.random()*2+2)+"s";p.style.animationDelay=(Math.random()*1)+"s";wrap.appendChild(p)}document.body.appendChild(wrap);setTimeout(()=>wrap.remove(),5000)}
+function checkConfetti(){const ov=go(S.wk[CW]);if(ov.p>=80&&!confettiShown[CW]){confettiShown[CW]=true;setTimeout(fireConfetti,300)}}
+
+// EXPORT
+function exportWeek(){
+  const ov=go(S.wk[CW]);const mt=S.mt[CW]||{};const dl=mt.dl||{};
+  const avgSl=avgSleepWeek();const avgSt=avgStressWeek();
+  let t="📊 JASHAN'S WEEKLY REPORT\n";
+  t+="Week: "+CW+" ("+wr(CW)+")\n━━━━━━━━━━━━━━━━━━━━\n\n";
+  t+="🎯 Overall: "+ov.p+"% ("+ov.dn+"/"+ov.tl+")\n";
+  if(avgSl)t+="😴 Avg Sleep: "+avgSl+"\n";
+  if(avgSt)t+="🧠 Avg Stress: "+avgSt+"/5\n";
+  t+="\n";
+  S.cats.forEach(c=>{const s=gs(S.wk[CW],c);t+=c.e+" "+c.l+": "+s.p+"% ("+s.dn+"/"+s.tl+")\n"});
+  t+="\n";
+  if(mt.intention)t+="🎯 Intention: "+mt.intention+"\n";
+  if(mt.stars)t+="⭐ Rating: "+"⭐".repeat(mt.stars)+"\n";
+  t+="\n━━━━━━━━━━━━━━━━━━━━\nJashan's Life Tracker";
+  if(navigator.share){navigator.share({title:"Weekly Report",text:t}).catch(()=>copyFallback(t))}
+  else{copyFallback(t)}
+}
+function copyFallback(t){try{var ta=document.createElement("textarea");ta.value=t;ta.style.cssText="position:fixed;left:-9999px;top:0;opacity:0";document.body.appendChild(ta);ta.focus();ta.select();var ok=document.execCommand("copy");document.body.removeChild(ta);if(ok){showToast("✅ Copied!")}else{prompt("Copy:",t)}}catch(e){prompt("Copy:",t)}}
+function showToast(msg){var old=document.querySelector(".toast");if(old)old.remove();var el=document.createElement("div");el.className="toast";el.textContent=msg;document.body.appendChild(el);setTimeout(()=>{if(el.parentNode)el.remove()},2500)}
+
+// RENDER HELPERS
+function csv(p,cl,sz=80){const sw=6,r=(sz-sw)/2,c=2*Math.PI*r,o=c-(p/100)*c;return`<div style="position:relative;width:${sz}px;height:${sz}px;display:inline-block"><svg width="${sz}" height="${sz}" style="transform:rotate(-90deg)"><circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="${sw}"/><circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="${cl}" stroke-width="${sw}" stroke-dasharray="${c}" stroke-dashoffset="${o}" stroke-linecap="round" style="transition:stroke-dashoffset .5s"/></svg><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:${sz*.22}px;font-weight:800;color:#e2e8f0;font-family:'Outfit'">${p}%</div></div>`}
+function bh(p,cl,h=7){return`<div style="width:100%;background:rgba(255,255,255,0.06);border-radius:${h}px;height:${h}px;overflow:hidden"><div style="width:${p}%;height:100%;background:${cl};border-radius:${h}px;transition:width .5s"></div></div>`}
+function cksvg(){return`<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function stressColor(v){if(!v)return"var(--sub)";if(v<=1)return"#10b981";if(v<=2)return"#64ffda";if(v<=3)return"#f59e0b";if(v<=4)return"#ef8b4d";return"#ef4444"}
+function sleepColor(hrs){if(!hrs)return"var(--sub)";const h=parseFloat(hrs);if(h>=7)return"#10b981";if(h>=6)return"#f59e0b";return"#ef4444"}
+
+// INIT
+const CW=wid();
+ew(CW);
+if(!S.sw)S.sw=CW;
+
+// MAIN RENDER
+function R(){
+  ew(S.sw);
+  const wd=S.wk[S.sw]||{};
+  const mt=S.mt[S.sw]||{};
+  const dl=mt.dl||{};
+  const ic=S.sw===CW;
+  const ov=go(wd);
+  const sk=stk();
+  const today=getTodayIdx();
+  const dayName=D[today];
+  let h="";
+
+  // Header
+  h+=`<div class="hdr fu">
+    <div class="hdr-top">
+      <div>
+        <h1>Jashan's Tracker 🔥</h1>
+        <p class="s">${ic?"📍 "+dayName+", Current Week":"📂 Archive"} • ${wr(S.sw)}</p>
+      </div>
+      ${ic?`<span class="today-badge">${dayName.toUpperCase()}</span>`:""}
+    </div>
+  </div>`;
+
+  // Weekly Intention Banner (Tracker tab only, current week)
+  if(S.v==="tracker"&&ic){
+    h+=`<div class="intention-banner fu" style="animation-delay:.05s">
+      <div class="intention-label">🎯 This Week I Will...</div>
+      <input class="intention-input" placeholder="Write your weekly intention here..." value="${esc(mt.intention||"")}" onchange="sm('intention',this.value)" maxlength="120">
+      <div class="intention-hint">${mt.intention?"Locked in. Let's get it. 💪":"Set your intention for the week — it stays visible every day."}</div>
+    </div>`;
+  }
+
+  // Tabs
+  h+=`<div class="tabs"><div class="tab ${S.v==="tracker"?"a":""}" onclick="sv('tracker')">✅ Tracker</div><div class="tab ${S.v==="dailylog"?"a":""}" onclick="sv('dailylog')">📋 Daily Log</div><div class="tab ${S.v==="history"?"a":""}" onclick="sv('history')">📊 History</div></div>`;
+
+  // ═══ TRACKER TAB ═══
+  if(S.v==="tracker"){
+    const avgSl=avgSleepWeek();
+    const avgSt=avgStressWeek();
+
+    // Main score card
+    h+=`<div class="sm fu" style="animation-delay:.1s">
+      <div class="sm-top">
+        <div>
+          <p class="lb">Weekly Score</p>
+          <p class="bg">${ov.dn}<span>/${ov.tl}</span></p>
+          ${sk>0?`<p class="stk">🔥 ${sk} week streak!</p>`:""}
+          <div class="cd">${S.cats.map(c=>{const s=gs(wd,c);return`<div style="display:flex;align-items:center;gap:4px"><div class="d" style="background:${c.c}"></div><span>${s.p}%</span></div>`}).join("")}</div>
+        </div>
+        ${csv(ov.p,"var(--accent)")}
+      </div>
+    </div>`;
+
+    // Stats row — sleep, stress, streak
+    h+=`<div class="stats-row fu" style="animation-delay:.13s">
+      <div class="stat-box">
+        <div class="si">😴</div>
+        <div class="sv" style="color:${avgSl?sleepColor(avgSl):"var(--sub)"}">${avgSl||"—"}</div>
+        <div class="sl">Avg Sleep</div>
+      </div>
+      <div class="stat-box">
+        <div class="si">🧠</div>
+        <div class="sv" style="color:${avgSt?stressColor(avgSt):"var(--sub)"}">${avgSt||"—"}<span style="font-size:11px;color:var(--sub)">${avgSt?"/5":""}</span></div>
+        <div class="sl">Avg Stress</div>
+      </div>
+      <div class="stat-box">
+        <div class="si">🔥</div>
+        <div class="sv" style="color:${sk>0?"#f59e0b":"var(--sub)"}">${sk>0?sk+" wk":"New"}</div>
+        <div class="sl">Week Streak</div>
+      </div>
+    </div>`;
+
+    // Category cards
+    S.cats.forEach((cat,ci)=>{
+      const sc=gs(wd,cat);
+      h+=`<div class="cc fu" style="animation-delay:${.15+ci*.07}s">
+        <div class="ch">
+          <div>
+            <h2><span>${cat.e}</span><span style="color:${cat.c}">${cat.l}</span></h2>
+            <p class="m">${cat.d} days • ${cat.t.length} habits/day</p>
+          </div>
+          <div style="text-align:right">
+            <div class="p" style="color:${cat.c}">${sc.p}%</div>
+            <div class="ps">${sc.dn}/${sc.tl}</div>
+          </div>
+        </div>
+        <div class="bw">${bh(sc.p,cat.c)}</div>
+        <div class="gw"><table><thead><tr><th>Habit</th>${D.slice(0,cat.d).map((d,di)=>`<th style="${di===today?"color:var(--accent);font-size:10px":""}">${d}${di===today?"•":""}</th>`).join("")}</tr></thead><tbody>`;
+
+      cat.t.forEach(task=>{
+        const td=wd[cat.id]?.[task]||Array(cat.d).fill(false);
+        const streak=getTaskStreak(cat.id,task);
+        h+=`<tr><td class="tn">${esc(task)}${streak>=3?` <span style="font-size:9px;color:${cat.c}">🔥${streak}</span>`:`${streak>=1?` <span style="font-size:9px;color:var(--sub)">↑${streak}</span>`:""}`}</td>`;
+        for(let di=0;di<cat.d;di++){
+          const on=td[di];const isToday=di===today;
+          h+=`<td style="text-align:center;padding:2px;${isToday?"background:rgba(100,255,218,0.04);border-radius:6px":""}"><div class="ck ${on?"on":""}" style="background:${on?cat.c:"var(--inputBg)"};border-color:${on?cat.c:isToday?"rgba(100,255,218,0.2)":"var(--border)"};${on?"box-shadow:0 0 10px "+cat.c+"33":""};${ic?"":"opacity:.5;cursor:default"}" onclick="${ic?`tt('${cat.id}',\`${task.replace(/`/g,"\\`")}\`,${di})`:""}">${on?cksvg():""}</div></td>`
+        }
+        h+=`</tr>`;
+      });
+      h+=`</tbody></table></div></div>`;
+    });
+
+    // Weekly summary
+    h+=`<div class="sum fu" style="animation-delay:.3s"><h3>📝 Weekly Summary</h3>`;
+    S.cats.forEach(cat=>{
+      const s=gs(wd,cat);
+      const lb=s.p>=80?"🔥 Crushing it!":s.p>=50?"👍 Good":s.p>0?"⚡ Push more":"🎯 Get started";
+      h+=`<div class="srow" style="border-left:3px solid ${cat.c}"><span class="n">${cat.e} ${cat.l}</span><div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;color:var(--sub)">${s.dn}/${s.tl}</span><span class="bd" style="background:${cat.c}18;color:${cat.c}">${lb}</span></div></div>`
+    });
+    h+=`<p class="sl" style="margin-top:14px">Rate your week:</p>
+    <div class="sts">${[1,2,3,4,5].map(s=>`<span class="${(mt.stars||0)>=s?"on":""}" onclick="${ic?`sm('stars',${s})`:""}" style="${ic?"cursor:pointer":"cursor:default"}">⭐</span>`).join("")}</div>
+    <p class="sl">Weekly reflection:</p>
+    <textarea class="inp" placeholder="How was your week? What did you learn about yourself?..." onchange="sm('reflection',this.value)" ${ic?"":"disabled"}>${esc(mt.reflection)}</textarea>
+    <p class="sl">🎯 Next week's focus:</p>
+    <input class="inp" placeholder="One priority for next week..." value="${esc(mt.focus)}" onchange="sm('focus',this.value)" ${ic?"":"disabled"}></div>`;
+  }
+
+  // ═══ DAILY LOG TAB ═══
+  if(S.v==="dailylog"){
+    D.forEach((day,i)=>{
+      const isOpen=!!openDays[i];
+      const isToday=i===today;
+      const dm=dl["mood_"+i],de=dl["energy_"+i];
+      const dst=dl["stress_"+i];
+      const dwk=dl["workout_"+i],ddur=dl["duration_"+i];
+      const dbed=dl["bed_"+i],dwake=dl["wake_"+i];
+      const moodPrev=dm!==undefined?M[dm]:"";
+      const sleepCalc=calcSleep(dbed,dwake);
+
+      h+=`<div class="daycard fu" style="animation-delay:${i*.04}s;${isToday?"border-color:rgba(100,255,218,0.2)":""}">
+        <div class="daycard-head" onclick="togD(${i})">
+          <div style="display:flex;align-items:center;gap:10px">
+            <span class="daycard-day" style="${isToday?"color:var(--accent)":""}">${day}</span>
+            ${isToday?`<span style="font-size:9px;background:var(--accent);color:#0a192f;padding:1px 6px;border-radius:4px;font-weight:800">TODAY</span>`:""}
+          </div>
+          <div class="daycard-preview">
+            ${moodPrev?`<span class="mood-prev">${moodPrev}</span>`:""}
+            ${dwk?`<span class="ep" style="background:rgba(16,185,129,0.1);color:#10b981">${dwk.split(" ")[0]}</span>`:""}
+            ${sleepCalc?`<span style="font-size:10px;color:var(--accent);font-weight:700">😴${sleepCalc}</span>`:""}
+            <span class="arrow ${isOpen?"open":""}">▼</span>
+          </div>
+        </div>
+        <div class="daycard-body ${isOpen?"open":""}">
+
+          <div class="sec-divider">🌙 Sleep</div>
+          <div class="daycard-field">
+            <label>Bedtime & Wake Up</label>
+            <div class="sleep-row">
+              <div><label style="font-size:9px;color:var(--sub);display:block;margin-bottom:3px">Bed time</label>
+              <input class="time-inp" type="time" value="${esc(dbed||"")}" onchange="sdl('bed_${i}',this.value)" ${ic?"":"disabled"}></div>
+              <div><label style="font-size:9px;color:var(--sub);display:block;margin-bottom:3px">Wake up</label>
+              <input class="time-inp" type="time" value="${esc(dwake||"")}" onchange="sdl('wake_${i}',this.value)" ${ic?"":"disabled"}></div>
+            </div>
+            ${sleepCalc?`<div class="sleep-calc">😴 ${sleepCalc} sleep ${parseFloat(sleepCalc)>=7?"✅ Great!":parseFloat(sleepCalc)>=6?"⚡ Okay":"😰 Need more rest"}</div>`:""}
+          </div>
+
+          <div class="sec-divider">💪 Workout</div>
+          <div class="daycard-field">
+            <label>Workout Type</label>
+            <div class="workout-grid">${WORKOUT_TYPES.map(wt=>`<div class="workout-type-btn ${dwk===wt?"a":""}" onclick="${ic?`sdl('workout_${i}','${wt}')`:""}">${wt}</div>`).join("")}</div>
+          </div>
+          ${dwk&&dwk!=="😴 Rest Day"?`<div class="daycard-field">
+            <label>Duration (minutes)</label>
+            <input class="dur-input" type="number" placeholder="How long? e.g. 45" value="${esc(ddur||"")}" onchange="sdl('duration_${i}',this.value)" ${ic?"":"disabled"} min="1" max="300">
+          </div>`:""}
+
+          <div class="sec-divider">🥗 Meals</div>
+          <div class="daycard-field">
+            <label>What did you eat today?</label>
+            <input class="meal-inp" placeholder="🌅 Breakfast — e.g. eggs, toast, fruit..." value="${esc(dl['meal1_'+i]||'')}" onchange="sdl('meal1_${i}',this.value)" ${ic?"":"disabled"}>
+            <input class="meal-inp" placeholder="☀️ Lunch — e.g. rice, chicken, salad..." value="${esc(dl['meal2_'+i]||'')}" onchange="sdl('meal2_${i}',this.value)" ${ic?"":"disabled"}>
+            <input class="meal-inp" placeholder="🌙 Dinner — e.g. pasta, vegetables..." value="${esc(dl['meal3_'+i]||'')}" onchange="sdl('meal3_${i}',this.value)" ${ic?"":"disabled"}">
+          </div>
+
+          <div class="sec-divider">🧠 Mood & Mental</div>
+          <div class="daycard-field">
+            <label>How are you feeling?</label>
+            <div class="mood-row">${M.map((e,mi)=>`<span class="mood-btn ${dm===mi?"a":""}" onclick="${ic?`sdl('mood_${i}',${mi})`:""}">${e}</span>`).join("")}</div>
+          </div>
+          <div class="daycard-field">
+            <label>Energy Level (1–5)</label>
+            <div class="energy-row">${[1,2,3,4,5].map(n=>`<div class="eng-num ${de===(n-1)?"a":""}" onclick="${ic?`sdl('energy_${i}',${n-1})`:""}">${n}</div>`).join("")}</div>
+          </div>
+          <div class="daycard-field">
+            <label>Stress Level — ${dst!==undefined&&dst!==null?STRESS_LABELS[dst]:"not set"}</label>
+            <div class="stress-row">
+              <span style="font-size:11px;color:var(--sub)">😌</span>
+              <input class="stress-slider" type="range" min="1" max="5" value="${dst||3}" oninput="sdl('stress_${i}',this.value);R()" ${ic?"":"disabled"} style="background:linear-gradient(to right,${stressColor(dst||3)} ${((dst||3)-1)*25}%,rgba(255,255,255,0.1) ${((dst||3)-1)*25}%)">
+              <span style="font-size:11px;color:var(--sub)">🔥</span>
+              <span class="stress-label" style="color:${stressColor(dst||3)}">${dst||3}</span>
+            </div>
+          </div>
+
+          <div class="sec-divider">📝 Journal</div>
+          <div class="daycard-field" style="margin-bottom:0">
+            <label>Quick Reflection</label>
+            <div class="quick-journal">
+              <div class="qj-row"><span class="qj-emoji">🙏</span><textarea class="qj-inp" rows="1" placeholder="Grateful for..." onchange="sdl('grat_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['grat_'+i]||'')}</textarea></div>
+              <div class="qj-row"><span class="qj-emoji">😤</span><textarea class="qj-inp" rows="1" placeholder="What stressed me..." onchange="sdl('stress_note_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['stress_note_'+i]||'')}</textarea></div>
+              <div class="qj-row"><span class="qj-emoji">🏆</span><textarea class="qj-inp" rows="1" placeholder="One win today..." onchange="sdl('win_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['win_'+i]||'')}</textarea></div>
+              <div class="qj-row"><span class="qj-emoji">💭</span><textarea class="qj-inp" rows="2" placeholder="Anything else on your mind..." onchange="sdl('note_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['note_'+i]||'')}</textarea></div>
+            </div>
+          </div>
+
+        </div>
+      </div>`;
+    });
+  }
+
+  // ═══ HISTORY TAB ═══
+  if(S.v==="history"){
+    const ws=Object.keys(S.wk).sort().reverse();
+    const ci=ws.indexOf(S.sw);
+    const bw=getBestWeek();
+
+    h+=`<div class="week-nav fu">
+      <button class="week-nav-btn" onclick="navWk(-1)" ${ci<ws.length-1?"":"disabled"}>◀ Prev</button>
+      <button class="week-nav-curr" onclick="navCW()">Current Week</button>
+      <button class="week-nav-btn" onclick="navWk(1)" ${ci>0?"":"disabled"}>Next ▶</button>
+    </div>`;
+
+    h+=`<h3 class="fu" style="font-size:15px;font-weight:800;font-family:'Outfit';margin-bottom:14px;color:var(--accent)">📂 Week Archives</h3>`;
+    if(!ws.length){h+=`<p style="color:var(--sub);text-align:center;padding:40px 0">No weeks yet — start tracking today!</p>`}
+
+    ws.forEach((w,wi)=>{
+      const wo=go(S.wk[w]);const wm=S.mt[w]||{};const wdl=wm.dl||{};
+      const cu=w===CW;const isBest=w===bw.week&&bw.pct>0;
+
+      // calc sleep for history
+      let sleepStr="—";
+      let sleepTotal=0,sleepCount=0;
+      D.forEach((_,i)=>{
+        const bed=wdl["bed_"+i],wake=wdl["wake_"+i];
+        if(!bed||!wake)return;
+        const [bh2,bm]=bed.split(":").map(Number);
+        const [wh,wm2]=wake.split(":").map(Number);
+        let mins=(wh*60+wm2)-(bh2*60+bm);
+        if(mins<0)mins+=24*60;
+        sleepTotal+=mins;sleepCount++;
+      });
+      if(sleepCount){const avg=sleepTotal/sleepCount;sleepStr=Math.floor(avg/60)+"h"+(Math.round(avg%60)>0?" "+Math.round(avg%60)+"m":"");}
+
+      // avg stress
+      let stressStr="—";
+      let stTotal=0,stCount=0;
+      D.forEach((_,i)=>{const v=wdl["stress_"+i];if(v!==undefined&&v!==null){stTotal+=Number(v);stCount++;}});
+      if(stCount)stressStr=(Math.round(stTotal/stCount*10)/10)+"/5";
+
+      // avg mood
+      const mv=D.map((_,i)=>wdl["mood_"+i]).filter(v=>v!==undefined);
+      const avgMood=mv.length?Math.round(mv.reduce((a,b)=>a+b,0)/mv.length):null;
+
+      h+=`<div class="hc fu" style="animation-delay:${wi*.05}s;border-left:${cu?"4px solid var(--accent)":isBest?"4px solid #f59e0b":"4px solid transparent"}" onclick="vw('${w}')">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <p style="font-size:13px;font-weight:800">${w}${cu?` <span style="font-size:10px;color:var(--accent)">CURRENT</span>`:""}${isBest?`<span class="best-badge">👑 BEST</span>`:""}</p>
+            <p style="font-size:10px;color:var(--sub);margin-top:1px">${wr(w)}</p>
+          </div>
+          <div style="text-align:right">
+            <span style="font-size:17px;font-weight:900;font-family:'Outfit';color:${wo.p>=70?"#10b981":wo.p>=40?"#f59e0b":"var(--sub)"}">${wo.p}%</span>
+            <p style="font-size:9px;color:var(--sub)">${wo.dn}/${wo.tl}</p>
+          </div>
+        </div>
+        <div class="h-mid">
+          <div class="h-left">
+            ${wm.stars?`<span style="font-size:11px">${"⭐".repeat(wm.stars)}</span>`:""}
+            <span style="font-size:16px">${avgMood!==null?M[avgMood]:"—"}</span>
+            <span style="font-size:10px;color:var(--accent);font-weight:700">😴 ${sleepStr}</span>
+          </div>
+          <div class="h-right">
+            <span style="font-size:10px;color:${stressStr!=="—"?stressColor(parseFloat(stressStr)):"var(--sub)"};font-weight:700">🧠 ${stressStr}</span>
+          </div>
+        </div>
+        <div class="hbs">${S.cats.map(c=>{const s=gs(S.wk[w],c);return`<div class="hbi"><span style="font-size:9px">${c.e}</span>${bh(s.p,c.c,3)}<span style="font-size:9px;color:${c.c};font-weight:700">${s.p}%</span></div>`}).join("")}</div>
+      </div>`;
+    });
+  }
+
+  document.getElementById("app").innerHTML=h;
+  save();
+  checkConfetti();
+}
+
+// ACTIONS
+function sv(v){S.v=v;if(v==="tracker"||v==="dailylog")S.sw=CW;if(v==="dailylog")openDays={};save();R()}
+function vw(w){S.sw=w;S.v="tracker";save();R();window.scrollTo(0,0)}
+function tt(ci,task,di){if(S.sw!==CW)return;ew(CW);if(!S.wk[CW][ci])S.wk[CW][ci]={};const cat=S.cats.find(c=>c.id===ci);if(!cat)return;if(!S.wk[CW][ci][task])S.wk[CW][ci][task]=Array(cat.d).fill(false);S.wk[CW][ci][task][di]=!S.wk[CW][ci][task][di];save();R()}
+function sm(k,v){if(S.sw!==CW)return;if(!S.mt[CW])S.mt[CW]={};S.mt[CW][k]=v;save();if(k!=="intention")R()}
+function sdl(k,v){if(S.sw!==CW)return;ew(CW);S.mt[CW].dl[k]=v;save();if(k.startsWith("bed_")||k.startsWith("wake_")||k.startsWith("workout_")||k.startsWith("stress_"))R()}
+function togD(i){openDays[i]=!openDays[i];R()}
+function navWk(dir){const ws=Object.keys(S.wk).sort().reverse();const ci=ws.indexOf(S.sw);const ni=ci-dir;if(ni>=0&&ni<ws.length){S.sw=ws[ni];save();R()}}
+function navCW(){S.sw=CW;save();R()}
+
+// RESET
+function rw(){
+  var old=document.getElementById("resetModal");if(old)old.remove();
+  var m=document.createElement("div");m.id="resetModal";
+  m.style.cssText="position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px";
+  m.innerHTML='<div style="background:#112240;border:1px solid rgba(100,255,218,0.15);border-radius:16px;padding:24px;max-width:340px;width:100%;text-align:center"><p style="font-size:16px;font-weight:800;font-family:Outfit;margin-bottom:12px;color:#e2e8f0">🔄 Reset Week?</p><p style="font-size:12px;color:#8892b0;margin-bottom:20px;line-height:1.6">This will clear all checkboxes, daily logs, sleep, meal and journal data for this week.<br><br><strong style="color:#ef4444">Cannot be undone.</strong></p><div style="display:flex;gap:10px"><button onclick="cancelReset()" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(100,255,218,0.08);background:transparent;color:#8892b0;font-weight:700;font-family:Nunito;cursor:pointer;font-size:13px">Cancel</button><button onclick="doReset()" style="flex:1;padding:10px;border-radius:10px;border:none;background:#ef4444;color:#fff;font-weight:700;font-family:Nunito;cursor:pointer;font-size:13px">Yes, Reset</button></div></div>';
+  document.body.appendChild(m);
+}
+function cancelReset(){var m=document.getElementById("resetModal");if(m)m.remove()}
+function doReset(){
+  var m=document.getElementById("resetModal");if(m)m.remove();
+  var newWk={};
+  S.cats.forEach(c=>{newWk[c.id]={};c.t.forEach(t=>{newWk[c.id][t]=Array(c.d).fill(false)})});
+  S.wk[CW]=newWk;S.mt[CW]={dl:{}};S.sw=CW;S.v="tracker";openDays={};confettiShown[CW]=false;
+  save();R();window.scrollTo(0,0);
+  setTimeout(()=>showToast("✅ Week reset successfully"),200);
+}
+
+// SETTINGS
+function sS(){
+  if(document.getElementById("smod"))return;
+  const el=document.createElement("div");el.className="mbg";el.id="smod";
+  let h=`<div class="mdl"><button class="mc" onclick="cS()">✕</button><h2>⚙️ Settings</h2>`;
+  h+=`<p style="font-size:12px;color:var(--sub);font-weight:700;text-transform:uppercase;margin-bottom:10px">📂 Categories</p>`;
+  S.cats.forEach((cat,ci)=>{
+    h+=`<div class="ce"><div class="ceh"><div style="display:flex;align-items:center;gap:6px">
+      <input style="width:34px;text-align:center;background:transparent;border:1px solid var(--border);border-radius:7px;padding:3px;font-size:16px;color:var(--text)" value="${cat.e}" onchange="uC(${ci},'e',this.value)">
+      <input style="background:transparent;border:1px solid var(--border);border-radius:7px;padding:4px 8px;color:${cat.c};font-size:14px;font-weight:800;font-family:'Nunito';width:150px" value="${esc(cat.l)}" onchange="uC(${ci},'l',this.value)">
+    </div><button style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:15px" onclick="rC(${ci})">🗑️</button></div>`;
+    h+=`<div style="display:flex;gap:6px;margin-bottom:10px;align-items:center"><span style="font-size:11px;color:var(--sub);font-weight:600">Days:</span>${[5,6,7].map(d=>`<button class="db" style="border-color:${cat.d===d?cat.c:"var(--border)"};background:${cat.d===d?cat.c+"22":"transparent"};color:${cat.d===d?cat.c:"var(--sub)"}" onclick="uC(${ci},'d',${d})">${d}</button>`).join("")}
+    <span style="font-size:11px;color:var(--sub);font-weight:600;margin-left:8px">Color:</span><div style="display:flex;gap:5px;margin-left:4px">${COLORS.map(c=>`<div class="clr-dot ${cat.c===c?"a":""}" style="background:${c}" onclick="uC(${ci},'c','${c}')"></div>`).join("")}</div></div>`;
+    cat.t.forEach((t,ti)=>{h+=`<div class="ti"><span class="nm">${esc(t)}</span><button class="tdl" onclick="rT(${ci},${ti})">✕</button></div>`});
+    h+=`<div class="ar"><input class="inp" id="nt${ci}" placeholder="Add a habit..." style="font-size:11px;padding:5px 8px" onkeydown="if(event.key==='Enter')aT(${ci})"><button style="background:${cat.c}22;border:1px solid ${cat.c}44;color:${cat.c};padding:5px 12px;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito'" onclick="aT(${ci})">+ Add</button></div></div>`;
+  });
+  h+=`<div class="ar" style="margin-top:10px"><input class="inp" id="ncat" placeholder="New category name..." style="font-size:12px"><button style="background:var(--accent);border:none;color:#0a192f;padding:8px 16px;border-radius:8px;font-weight:700;font-family:'Nunito';cursor:pointer" onclick="aC()">+ Category</button></div>`;
+  h+=`<button class="svb" onclick="cS()">Save & Close</button></div>`;
+  el.innerHTML=h;document.body.appendChild(el);
+}
+function cS(){const m=document.getElementById("smod");if(m)m.remove();R()}
+function uC(i,k,v){if(k==="d")v=+v;S.cats[i][k]=v;save();cS();sS()}
+function rC(i){
+  var m=document.createElement("div");m.id="resetModal";
+  m.style.cssText="position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px";
+  m.innerHTML=`<div style="background:#112240;border:1px solid rgba(100,255,218,0.15);border-radius:16px;padding:24px;max-width:300px;width:100%;text-align:center"><p style="font-size:15px;font-weight:800;font-family:Outfit;margin-bottom:16px;color:#e2e8f0">Delete category?</p><div style="display:flex;gap:10px"><button onclick="cancelReset()" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(100,255,218,0.08);background:transparent;color:#8892b0;font-weight:700;font-family:Nunito;cursor:pointer;font-size:13px">Cancel</button><button onclick="doRC(${i})" style="flex:1;padding:10px;border-radius:10px;border:none;background:#ef4444;color:#fff;font-weight:700;font-family:Nunito;cursor:pointer;font-size:13px">Delete</button></div></div>`;
+  document.body.appendChild(m);
+}
+function doRC(i){cancelReset();S.cats.splice(i,1);save();cS();sS()}
+function rT(ci,ti){S.cats[ci].t.splice(ti,1);save();cS();sS()}
+function aT(ci){const inp=document.getElementById("nt"+ci);if(!inp||!inp.value.trim())return;S.cats[ci].t.push(inp.value.trim());save();cS();sS()}
+function aC(){const inp=document.getElementById("ncat");if(!inp||!inp.value.trim())return;S.cats.push({id:"c_"+Date.now(),l:inp.value.trim(),e:"📌",d:7,c:"#6366f1",t:[]});save();cS();sS()}
+
+R();
 </script>
 </body>
 </html>
