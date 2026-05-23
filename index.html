@@ -14,60 +14,83 @@
   --accent:#64ffda;--text:#e2e8f0;--sub:#8892b0;
   --card:rgba(255,255,255,0.03);--card2:rgba(255,255,255,0.05);
   --border:rgba(100,255,218,0.08);--inputBg:rgba(255,255,255,0.04);
-  --fit:#10b981;--mental:#8b5cf6;
+  --green:#10b981;--purple:#8b5cf6;--amber:#f59e0b;--red:#ef4444;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Nunito',sans-serif;color:var(--text);background:linear-gradient(160deg,var(--bg1),var(--bg2),var(--bg3));min-height:100vh;min-height:100dvh;padding-bottom:90px;-webkit-font-smoothing:antialiased}
-@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-.fu{animation:fu .4s ease forwards}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}.fu{animation:fu .4s ease forwards}
 @keyframes popIn{0%{transform:scale(0.5);opacity:0}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
 @keyframes checkPop{0%{transform:scale(1)}40%{transform:scale(1.3)}100%{transform:scale(1)}}
 @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg) scale(0.3);opacity:0}}
+@keyframes shimmer{0%{opacity:0.6}50%{opacity:1}100%{opacity:0.6}}
 .ctr{max-width:680px;margin:0 auto;padding:0 16px}
+/* HEADER */
 .hdr{padding:24px 0 6px}
 .hdr-top{display:flex;align-items:center;justify-content:space-between}
 .hdr h1{font-family:'Outfit';font-size:22px;font-weight:900;background:linear-gradient(135deg,var(--accent),#64ffda88,#e2e8f0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .hdr .s{font-size:11px;color:var(--sub);font-weight:600;margin-top:2px}
 .today-badge{font-size:10px;background:rgba(100,255,218,0.1);color:var(--accent);padding:4px 10px;border-radius:8px;font-weight:700;border:1px solid rgba(100,255,218,0.2)}
+/* INTENTION */
 .intention-banner{background:linear-gradient(135deg,rgba(100,255,218,0.07),rgba(100,255,218,0.02));border:1px solid rgba(100,255,218,0.15);border-radius:14px;padding:14px 16px;margin-bottom:16px}
 .intention-label{font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
 .intention-input{width:100%;background:transparent;border:none;outline:none;font-size:14px;font-weight:700;color:var(--accent);font-family:'Nunito';font-style:italic}
 .intention-input::placeholder{color:var(--sub);font-style:italic;font-weight:600}
 .intention-hint{font-size:10px;color:var(--sub);margin-top:4px}
+/* TABS */
 .tabs{display:flex;gap:6px;padding:12px 0 16px}
-.tab{flex:1;padding:9px 8px;border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito';background:var(--card);color:var(--sub);transition:all .25s;text-align:center}
+.tab{flex:1;padding:9px 6px;border:1px solid var(--border);border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Nunito';background:var(--card);color:var(--sub);transition:all .25s;text-align:center}
 .tab:hover{transform:translateY(-1px)}
 .tab.a{background:var(--accent);color:#0a192f;border-color:transparent;font-weight:800}
+/* SCORE CARD */
 .sm{padding:18px;background:linear-gradient(135deg,rgba(100,255,218,0.06),rgba(100,255,218,0.02));border:1px solid rgba(100,255,218,0.12);border-radius:16px;margin-bottom:14px}
 .sm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .sm .lb{font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
 .sm .bg{font-size:30px;font-family:'Outfit';font-weight:900}
 .sm .bg span{font-size:15px;color:var(--sub)}
-.stk{font-size:12px;margin-top:4px;font-weight:700;color:#f59e0b}
+.stk{font-size:12px;margin-top:4px;font-weight:700;color:var(--amber)}
 .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
 .stat-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;text-align:center}
-.stat-box .sv{font-size:18px;font-weight:900;font-family:'Outfit'}
+.stat-box .sv{font-size:17px;font-weight:900;font-family:'Outfit'}
 .stat-box .sl{font-size:9px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px}
-.stat-box .si{font-size:14px;margin-bottom:2px}
+.stat-box .si{font-size:13px;margin-bottom:2px}
 .cd{display:flex;gap:9px;margin-top:5px}
 .cd .d{width:6px;height:6px;border-radius:50%;display:inline-block}
 .cd span{font-size:10px;color:var(--sub);font-weight:600}
-.cc{margin-bottom:16px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+/* TRACKER — TODAY VIEW */
+.cc{margin-bottom:14px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
 .ch{padding:14px 16px 10px;display:flex;justify-content:space-between;align-items:center}
 .ch h2{font-size:15px;font-weight:800;font-family:'Outfit';display:flex;align-items:center;gap:6px}
 .ch .m{font-size:10px;color:var(--sub);font-weight:600;margin-top:1px}
 .ch .p{font-size:17px;font-weight:900;font-family:'Outfit'}
 .ch .ps{font-size:9px;color:var(--sub)}
 .bw{padding:0 16px 2px}
-.gw{padding:10px 16px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+/* TODAY CHECKLIST */
+.today-list{padding:10px 16px 14px;display:flex;flex-direction:column;gap:6px}
+.habit-row{display:flex;align-items:center;gap:12px;padding:10px 14px;background:var(--inputBg);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none}
+.habit-row:hover{background:rgba(255,255,255,0.06)}
+.habit-row.done{background:rgba(100,255,218,0.04);border-color:rgba(100,255,218,0.15)}
+.habit-check{width:24px;height:24px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.habit-check.on{border-color:transparent;animation:checkPop .3s ease}
+.habit-name{font-size:13px;font-weight:600;flex:1;transition:all .2s}
+.habit-name.done{color:var(--sub);text-decoration:line-through}
+.habit-streak{font-size:10px;font-weight:700}
+/* WEEK TOGGLE */
+.week-toggle{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 16px 12px;cursor:pointer;color:var(--sub);font-size:11px;font-weight:700;transition:color .2s}
+.week-toggle:hover{color:var(--accent)}
+.week-toggle .arr{transition:transform .3s;display:inline-block}
+.week-toggle .arr.open{transform:rotate(180deg)}
+/* WEEK GRID */
+.week-grid-wrap{padding:0 16px 14px;overflow-x:auto;-webkit-overflow-scrolling:touch;display:none}
+.week-grid-wrap.open{display:block}
 table{width:100%;border-collapse:separate;border-spacing:3px}
 th{font-size:9px;color:var(--sub);font-weight:700;padding:2px 1px;text-align:center}
 th:first-child{text-align:left;padding-left:5px;min-width:110px}
 td.tn{font-size:11px;font-weight:600;padding:4px 5px}
-.ck{width:28px;height:28px;margin:0 auto;display:flex;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;transition:all .15s;border:2px solid var(--border);background:var(--inputBg)}
+.ck{width:26px;height:26px;margin:0 auto;display:flex;align-items:center;justify-content:center;border-radius:6px;cursor:pointer;transition:all .15s;border:2px solid var(--border);background:var(--inputBg)}
 .ck:hover{transform:scale(1.1)}
 .ck.on{border-color:transparent;animation:checkPop .3s ease}
-.sum{margin-bottom:18px;padding:18px;background:linear-gradient(135deg,rgba(100,255,218,0.04),var(--card));border:1px solid var(--border);border-radius:14px}
+/* SUMMARY */
+.sum{margin-bottom:14px;padding:16px;background:linear-gradient(135deg,rgba(100,255,218,0.04),var(--card));border:1px solid var(--border);border-radius:14px}
 .sum h3{font-size:14px;font-weight:800;font-family:'Outfit';margin-bottom:12px}
 .srow{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--card);border-radius:9px;margin-bottom:8px}
 .srow .n{font-size:12px;font-weight:700}
@@ -79,17 +102,20 @@ td.tn{font-size:11px;font-weight:600;padding:4px 5px}
 .inp:focus{border-color:rgba(100,255,218,0.3)}
 .inp::placeholder{color:var(--sub)}
 textarea.inp{resize:vertical;min-height:65px}
-.daycard{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:border-color .3s}
+/* DAILY LOG */
+.daycard{background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:10px;overflow:hidden}
 .daycard-head{padding:14px 16px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;-webkit-user-select:none;user-select:none;transition:background .2s}
 .daycard-head:hover{background:rgba(100,255,218,0.03)}
+.daycard-left{display:flex;align-items:center;gap:10px}
 .daycard-day{font-size:14px;font-weight:800;font-family:'Outfit'}
+.daycard-date{font-size:11px;color:var(--sub);font-weight:600}
 .daycard-preview{display:flex;align-items:center;gap:8px}
 .daycard-preview .mood-prev{font-size:18px}
 .daycard-preview .ep{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px}
 .daycard-preview .arrow{font-size:12px;color:var(--sub);transition:transform .3s;display:inline-block}
 .daycard-preview .arrow.open{transform:rotate(180deg)}
 .daycard-body{padding:0 16px;max-height:0;opacity:0;overflow:hidden;transition:max-height .6s ease,opacity .3s ease,padding .3s ease}
-.daycard-body.open{max-height:2400px;opacity:1;padding-bottom:16px}
+.daycard-body.open{max-height:2600px;opacity:1;padding-bottom:16px}
 .daycard-field{margin-bottom:14px}
 .daycard-field label{font-size:10px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:block}
 .mood-row{display:flex;gap:6px;flex-wrap:wrap}
@@ -106,8 +132,7 @@ textarea.inp{resize:vertical;min-height:65px}
 .stress-label{font-size:13px;font-weight:800;min-width:24px;text-align:center}
 .workout-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .workout-type-btn{padding:8px 6px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;border:2px solid var(--border);background:var(--inputBg);color:var(--sub);font-family:'Nunito';transition:all .2s;text-align:center}
-.workout-type-btn:hover{border-color:var(--fit);color:var(--fit)}
-.workout-type-btn.a{border-color:var(--fit);background:rgba(16,185,129,0.12);color:var(--fit)}
+.workout-type-btn.a{border-color:var(--green);background:rgba(16,185,129,0.12);color:var(--green)}
 .dur-input{width:100%;background:var(--inputBg);border:1px solid var(--border);border-radius:9px;padding:9px 12px;color:var(--text);font-size:14px;font-weight:800;font-family:'Outfit';outline:none;transition:border-color .2s}
 .dur-input:focus{border-color:rgba(16,185,129,0.4)}
 .dur-input::placeholder{color:var(--sub);font-weight:600;font-size:13px}
@@ -123,6 +148,44 @@ textarea.inp{resize:vertical;min-height:65px}
 .qj-emoji{font-size:14px;margin-top:1px;flex-shrink:0}
 .qj-inp{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-size:12px;font-family:'Nunito';resize:none;min-height:20px}
 .qj-inp::placeholder{color:var(--sub)}
+.sec-divider{font-size:10px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px;padding-left:4px}
+/* INSIGHTS TAB */
+.ins-section{margin-bottom:16px}
+.ins-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:12px}
+.ins-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.ins-title{font-size:16px;font-weight:800;font-family:'Outfit';margin-bottom:4px}
+.ins-date{font-size:11px;color:var(--sub);font-weight:600;margin-bottom:14px}
+/* Today snapshot bars */
+.cat-feedback-row{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.cat-feedback-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.cat-fb-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.cat-fb-name{font-size:13px;font-weight:800;display:flex;align-items:center;gap:6px}
+.cat-fb-pct{font-size:13px;font-weight:900;font-family:'Outfit'}
+.fb-bar-wrap{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.fb-bar{height:100%;border-radius:3px;transition:width .6s ease}
+.fb-line{font-size:12px;color:var(--sub);line-height:1.5;font-weight:600}
+.fb-line.good{color:var(--green)}
+.fb-line.warn{color:var(--amber)}
+.fb-line.bad{color:var(--red)}
+/* Motivational line */
+.motiv-card{background:linear-gradient(135deg,rgba(100,255,218,0.06),rgba(139,92,246,0.06));border:1px solid rgba(100,255,218,0.12);border-radius:12px;padding:14px 16px;margin-bottom:12px;text-align:center}
+.motiv-line{font-size:13px;font-weight:700;color:var(--text);line-height:1.6;font-style:italic}
+.motiv-tag{font-size:10px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+/* Pattern cards */
+.pattern-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.pattern-box{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:10px;text-align:center}
+.pattern-box .pv{font-size:16px;font-weight:900;font-family:'Outfit';margin:3px 0}
+.pattern-box .pl{font-size:9px;color:var(--sub);font-weight:700;text-transform:uppercase}
+.pattern-box .pi{font-size:13px}
+.pattern-text{font-size:12px;color:var(--sub);line-height:1.6;font-weight:600;padding:10px 12px;background:var(--inputBg);border-radius:9px;margin-bottom:8px}
+/* Verdict */
+.verdict-card{background:var(--card2);border-radius:12px;padding:14px;margin-bottom:10px}
+.verdict-text{font-size:13px;line-height:1.7;font-weight:600;color:var(--text)}
+.verdict-days{display:flex;gap:8px;margin-top:12px}
+.verdict-day{flex:1;padding:8px;border-radius:9px;text-align:center}
+.verdict-day .vd-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:2px}
+.verdict-day .vd-val{font-size:12px;font-weight:800}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
 /* HISTORY */
 .hc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px;cursor:pointer;transition:all .3s;margin-bottom:10px}
 .hc:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
@@ -130,21 +193,11 @@ textarea.inp{resize:vertical;min-height:65px}
 .hbi{flex:1;background:var(--inputBg);border-radius:7px;padding:6px;text-align:center}
 .h-mid{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .h-left{display:flex;align-items:center;gap:8px}
-.h-right{display:flex;align-items:center;gap:4px}
-.best-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;background:rgba(245,158,11,0.12);color:#f59e0b;padding:2px 7px;border-radius:6px;font-weight:800;margin-left:6px}
+.best-badge{display:inline-flex;align-items:center;gap:3px;font-size:9px;background:rgba(245,158,11,0.12);color:var(--amber);padding:2px 7px;border-radius:6px;font-weight:800;margin-left:6px}
 /* BOTTOM BAR */
 .bottom-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(180deg,transparent,var(--bg1) 30%);padding:12px 16px 20px;display:flex;justify-content:center;gap:10px;z-index:100}
 .bb{padding:10px 20px;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Nunito';transition:all .25s;border:1px solid var(--border);background:rgba(10,25,47,0.9);color:var(--sub);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.bb:hover{transform:translateY(-2px)}
-.bb.act:hover{border-color:var(--accent);color:var(--accent)}
-.bb.hist{border-color:rgba(100,255,218,0.15);color:var(--sub)}
-.bb.hist:hover{border-color:var(--accent);color:var(--accent)}
-/* AI FEEDBACK */
-.ai-btn{width:100%;padding:13px;border-radius:12px;background:linear-gradient(135deg,rgba(100,255,218,0.12),rgba(139,92,246,0.12));border:1px solid rgba(100,255,218,0.25);color:var(--accent);font-size:13px;font-weight:800;cursor:pointer;font-family:'Outfit';transition:all .25s;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}
-.ai-btn:hover{background:linear-gradient(135deg,rgba(100,255,218,0.2),rgba(139,92,246,0.2));transform:translateY(-1px)}
-.ai-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.ai-response{background:linear-gradient(135deg,rgba(139,92,246,0.08),rgba(100,255,218,0.04));border:1px solid rgba(139,92,246,0.2);border-radius:14px;padding:16px;margin-top:12px;font-size:13px;line-height:1.7;color:var(--text)}
-.ai-response .ai-header{font-size:10px;color:#8b5cf6;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.bb:hover{transform:translateY(-2px);border-color:var(--accent);color:var(--accent)}
 /* MODALS */
 .mbg{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:flex-start;padding:20px;overflow-y:auto}
 .mdl{width:100%;max-width:540px;background:var(--bg2);border-radius:18px;border:1px solid var(--border);padding:24px;position:relative}
@@ -163,7 +216,6 @@ textarea.inp{resize:vertical;min-height:65px}
 .clr-dot:hover{transform:scale(1.15)}
 .clr-dot.a{border-color:#fff;box-shadow:0 0 10px rgba(255,255,255,0.3)}
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:var(--accent);color:#0a192f;padding:10px 24px;border-radius:10px;font-weight:700;font-size:13px;font-family:'Nunito';z-index:3000;animation:fu .3s ease}
-.sec-divider{font-size:10px;color:var(--sub);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin:14px 0 8px;padding-left:4px}
 .confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:2000;overflow:hidden}
 .confetti-piece{position:absolute;width:10px;height:10px;top:-20px;animation:confettiFall 3s ease-out forwards}
 @media(max-width:480px){.hdr h1{font-size:19px}.bb{padding:10px 14px;font-size:11px}.workout-grid{grid-template-columns:1fr 1fr}}
@@ -171,9 +223,9 @@ textarea.inp{resize:vertical;min-height:65px}
 </head>
 <body>
 <div class="ctr" id="app"></div>
-<div class="bottom-bar" id="bbar">
-  <button class="bb hist" onclick="sv('history')">📊 History</button>
-  <button class="bb act" onclick="sS()">⚙️ Settings</button>
+<div class="bottom-bar">
+  <button class="bb" onclick="sv('history')">📊 History</button>
+  <button class="bb" onclick="sS()">⚙️ Settings</button>
 </div>
 <script>
 const D=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
@@ -182,245 +234,185 @@ const COLORS=["#10b981","#8b5cf6","#f59e0b","#ef4444","#3b82f6","#ec4899"];
 const WORKOUT_TYPES=["🏋️ Gym","🏃 Cardio","🧘 Home","🚶 Walk","😴 Rest Day"];
 const STRESS_LABELS=["","😌 Chill","🙂 Okay","😐 Mild","😰 Stressed","🔥 Overwhelmed"];
 
-let S=load();
+// MOTIVATIONAL LINES — categorized by situation
+const MOTIV={
+  lowScore:["Ek din ka miss matlab game over nahi — kal fir shuru karo 💪","Progress slow ho sakta hai, lekin ruk mat. Tum sahi direction mein ho 🔥","Aaj ka effort kal ka result banega. Trust the process, Jashan","Hard days banate hain strong people. Aaj survive kiya — kal thrive karoge","1% better every day. Compounding karta hai — bas mat ruko"],
+  goodScore:["Yeh version of you — 3 months pehle wala sapna tha. Proud ho 🔥","Consistency hi real flex hai. Aur tum kar rahe ho 💪","Jab motivation nahi thi tab bhi kiya — yahi discipline hai","Yeh streak — mat todna. Yeh tum ne khud banaya hai","Ek cheez seedha — tum serious ho apni life ke baare mein. It shows"],
+  streakHigh:["🔥 Streak zinda hai — aur tum ne isko jeevit rakha. Respect","Habits compound hoti hain — abhi results dikhne shuru honge","Jis din feel na ho, yaad karo — abhi kitna aaya hai. Tab nahi ruke, aaj bhi mat ruko","Yeh wali consistency hi zindagi change karti hai Jashan","Duniya dekhti hai results — tum dekh rahe ho efforts. Sahi ho"],
+  sleepLow:["Neend kam — sab mushkil lagta hai. Kal 30 min pehle so jaao, fark dikhega","Body ko recovery chahiye. Sleep fix karo — baaki sab khud fix hoga","7 ghante neend = free performance upgrade. Koi supplement nahi chahiye"],
+  stressHigh:["Stress real hai — tum jo feel kar rahe ho woh valid hai. Ek saans lo 🧘","Overwhelm pe ek kaam karo — sirf ek. Baaki baad mein","Aaj ka stress aaj ka hai — kal naya din hai, naya chance hai"],
+  physical:["Gym nahi gaye? 15 min walk bhi kaafi hai aaj ke liye. Shuru karo","Ghar ka khana = body ko respect dena. Yeh bhi discipline hai 💪","Physical activity = natural mood booster. Aaj chhota sa kuch karo"],
+  mental:["Ghar se bahar niklo — fresh air genuinely kaam karta hai","Family se baat ki? Woh tumhara support system hain — use karo","Journal likha? Jo andar hai usse bahar nikalna healing hai"],
+  financial:["Kaam pe gaye — consistency hi career banati hai. Keep showing up","Career pe ek chhota step bhi direction mein hai. Aaj karo","Shift log kiya? Data se patterns dikhte hain — track karte raho"]
+};
+
+function getRandMotiv(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function getMotivLine(score,streak,sleepHrs,stressAvg){
+  if(stressAvg&&stressAvg>=4)return getRandMotiv(MOTIV.stressHigh);
+  if(sleepHrs&&sleepHrs<6)return getRandMotiv(MOTIV.sleepLow);
+  if(streak>=5)return getRandMotiv(MOTIV.streakHigh);
+  if(score>=75)return getRandMotiv(MOTIV.goodScore);
+  return getRandMotiv(MOTIV.lowScore);
+}
+
+// WEEK TOGGLE STATE
+let weekOpen={};
 let openDays={};
 let confettiShown={};
-let aiLoading=false;
 
 function def(){return{cats:[
-  {id:"fitness",l:"Fitness",e:"💪",d:7,c:"#10b981",t:["Hit Step Goal","Drink 2L Water","No Junk Food","Stretch / Mobility"]},
-  {id:"mental",l:"Mindset & Growth",e:"🧠",d:7,c:"#8b5cf6",t:["Morning Intention Set","Read / Learn 20min","Reach Out to Someone","Limit Phone Before Bed"]},
-  {id:"financial",l:"Financial Habits",e:"💰",d:6,c:"#f59e0b",t:["Go to Work","Track Daily Spend","Do One Career Step"]}
+  {id:"physical",l:"Physical Health",e:"💪",d:7,c:"#10b981",t:["Make Meals in Kitchen","Eat Meal 1","Eat Meal 2","Eat Meal 3","Do Physical Activity"]},
+  {id:"mental",l:"Mental Health",e:"🧠",d:7,c:"#8b5cf6",t:["Talk to Family & Friends","Go Outside to Explore","Write Journal"]},
+  {id:"financial",l:"Financial Growth",e:"💰",d:6,c:"#f59e0b",t:["Go to Work","Log Shift Hours","Do Next Practical Action"]}
 ],wk:{},mt:{},v:"tracker",sw:null}}
 
-function load(){try{const s=localStorage.getItem("pt_jashan_v2");if(!s)return def();const d=JSON.parse(s);if(!d.cats)return def();return{...def(),...d}}catch(e){return def()}}
-function save(){try{localStorage.setItem("pt_jashan_v2",JSON.stringify(S))}catch(e){}}
+function load(){try{const s=localStorage.getItem("pt_jashan_v3");if(!s)return def();const d=JSON.parse(s);if(!d.cats)return def();return{...def(),...d}}catch(e){return def()}}
+function save(){try{localStorage.setItem("pt_jashan_v3",JSON.stringify(S))}catch(e){}}
+let S=load();
 
 // WEEK UTILS
 function wid(dt=new Date()){const d=new Date(dt);d.setHours(0,0,0,0);d.setDate(d.getDate()+3-((d.getDay()+6)%7));const w1=new Date(d.getFullYear(),0,4);const wn=1+Math.round(((d-w1)/864e5-3+((w1.getDay()+6)%7))/7);return d.getFullYear()+"-W"+String(wn).padStart(2,"0")}
 function wr(w){try{const[y,ws]=w.split("-W");const j=new Date(+y,0,4);const dw=j.getDay()||7;const m=new Date(j);m.setDate(j.getDate()-dw+1+(+ws-1)*7);const s=new Date(m);s.setDate(m.getDate()+6);const f=d=>d.toLocaleDateString("en-AU",{day:"numeric",month:"short"});return f(m)+" — "+f(s)}catch(e){return w}}
+function getWeekDates(w){try{const[y,ws]=w.split("-W");const j=new Date(+y,0,4);const dw=j.getDay()||7;const m=new Date(j);m.setDate(j.getDate()-dw+1+(+ws-1)*7);return D.map((_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);return d.toLocaleDateString("en-AU",{day:"numeric",month:"short"})});}catch(e){return D.map(()=>"")}}
 function ew(w){if(!w)return;if(!S.wk[w]){S.wk[w]={};S.cats.forEach(c=>{S.wk[w][c.id]={};c.t.forEach(t=>{S.wk[w][c.id][t]=Array(c.d).fill(false)})})}if(!S.mt[w])S.mt[w]={};if(!S.mt[w].dl)S.mt[w].dl={}}
 function getTodayIdx(){const d=new Date().getDay();return d===0?6:d-1}
 
 // SCORING
 function gs(wd,cat){if(!wd||!cat)return{dn:0,tl:0,p:0};let dn=0,tl=0;cat.t.forEach(t=>{const a=wd[cat.id]?.[t]||[];for(let i=0;i<cat.d;i++){tl++;if(a[i])dn++}});return{dn,tl,p:tl?Math.round(dn/tl*100):0}}
 function go(wd){if(!wd)return{dn:0,tl:0,p:0};let dn=0,tl=0;S.cats.forEach(c=>{const s=gs(wd,c);dn+=s.dn;tl+=s.tl});return{dn,tl,p:tl?Math.round(dn/tl*100):0}}
+function gsCat(catId,dayIdx){const wd=S.wk[CW]||{};const cat=S.cats.find(c=>c.id===catId);if(!cat)return{dn:0,tl:0,p:0};let dn=0,tl=0;cat.t.forEach(t=>{tl++;if((wd[catId]?.[t]||[])[dayIdx])dn++;});return{dn,tl,p:tl?Math.round(dn/tl*100):0}}
 function stk(){const ws=Object.keys(S.wk).sort().reverse();let s=0;for(const w of ws){if(go(S.wk[w]).p>=50)s++;else break}return s}
 function getBestWeek(){const ws=Object.keys(S.wk);let best=null,bp=0;ws.forEach(w=>{const p=go(S.wk[w]).p;if(p>bp){bp=p;best=w}});return{week:best,pct:bp}}
 
-// BUG 2 FIX — Full streak across ALL weeks in history
+// FULL STREAK
 function getTaskStreak(catId,task){
-  const allWeeks=Object.keys(S.wk).sort(); // ascending order
-  const today=getTodayIdx();
-  let streak=0;
-  let broken=false;
-
-  // Walk from current week backwards through all weeks
   const sorted=Object.keys(S.wk).sort().reverse();
+  const today=getTodayIdx();
+  let streak=0;let broken=false;
   for(let wi=0;wi<sorted.length;wi++){
-    const w=sorted[wi];
-    const wd=S.wk[w]||{};
+    const w=sorted[wi];const wd=S.wk[w]||{};
     const arr=wd[catId]?.[task]||[];
-    const cat=S.cats.find(c=>c.id===catId);
-    if(!cat){break;}
-    const days=cat.d;
-    // For current week: only count up to today
-    const limit=(wi===0)?today:days-1;
-    for(let di=limit;di>=0;di--){
-      if(arr[di]){streak++;}
-      else{broken=true;break;}
-    }
+    const cat=S.cats.find(c=>c.id===catId);if(!cat)break;
+    const limit=wi===0?today:cat.d-1;
+    for(let di=limit;di>=0;di--){if(arr[di])streak++;else{broken=true;break;}}
     if(broken)break;
   }
   return streak;
 }
 
-// SLEEP CALC
-function calcSleep(bed,wake){
-  if(!bed||!wake)return null;
-  try{
-    const[bh,bm]=bed.split(":").map(Number);
-    const[wh,wm]=wake.split(":").map(Number);
-    let mins=(wh*60+wm)-(bh*60+bm);
-    if(mins<0)mins+=24*60;
-    const h=Math.floor(mins/60);const m=mins%60;
-    return h+"h"+(m>0?" "+m+"m":"");
-  }catch(e){return null}
+// SLEEP
+function calcSleep(bed,wake){if(!bed||!wake)return null;try{const[bh,bm]=bed.split(":").map(Number);const[wh,wm]=wake.split(":").map(Number);let mins=(wh*60+wm)-(bh*60+bm);if(mins<0)mins+=24*60;return{h:Math.floor(mins/60),m:mins%60,total:mins};}catch(e){return null}}
+function fmtSleep(s){if(!s)return null;return s.h+"h"+(s.m>0?" "+s.m+"m":"")}
+function avgSleepWeek(){const dl=(S.mt[CW]||{}).dl||{};let total=0,count=0;D.forEach((_,i)=>{const s=calcSleep(dl["bed_"+i],dl["wake_"+i]);if(s){total+=s.total;count++;}});if(!count)return null;const avg=total/count;return{h:Math.floor(avg/60),m:Math.round(avg%60),total:avg}}
+function avgStressWeek(){const dl=(S.mt[CW]||{}).dl||{};let total=0,count=0;D.forEach((_,i)=>{const v=dl["stress_"+i];if(v!==undefined&&v!==null){total+=Number(v);count++;}});if(!count)return null;return Math.round(total/count*10)/10}
+function avgMoodWeek(){const dl=(S.mt[CW]||{}).dl||{};const mv=D.map((_,i)=>dl["mood_"+i]).filter(v=>v!==undefined);if(!mv.length)return null;return Math.round(mv.reduce((a,b)=>a+b,0)/mv.length)}
+
+// SCORE COLORS
+function scoreColor(p){if(p>=75)return"var(--green)";if(p>=50)return"var(--amber)";return"var(--red)"}
+function scoreEmoji(p){if(p>=75)return"💚";if(p>=50)return"🟡";return"🔴"}
+function stressColor(v){if(!v)return"var(--sub)";if(v<=2)return"var(--green)";if(v<=3)return"var(--amber)";return"var(--red)"}
+function sleepColor(h){if(!h)return"var(--sub)";if(h>=7)return"var(--green)";if(h>=6)return"var(--amber)";return"var(--red)"}
+
+// INSIGHTS — Daily feedback text per category
+function getDailyFeedback(catId,dayIdx){
+  const wd=S.wk[CW]||{};const cat=S.cats.find(c=>c.id===catId);if(!cat)return"";
+  const s=gsCat(catId,dayIdx);const dl=(S.mt[CW]||{}).dl||{};
+  if(catId==="physical"){
+    const workout=dl["workout_"+dayIdx];const meals=[dl["meal1_"+dayIdx],dl["meal2_"+dayIdx],dl["meal3_"+dayIdx]].filter(Boolean).length;
+    if(s.p===0)return"Koi physical habit complete nahi hui aaj. Kal ek chhoti si cheez se shuru karo 🌱";
+    if(s.p===100)return"Perfect physical day! Khana bhi, movement bhi — yahi consistency hai 🔥";
+    if(workout)return`${workout} kiya — great! ${meals<3?"Baaki meals bhi track karo kal.":"Aur khana bhi ghar pe — solid day 💪"}`;
+    return s.p>=50?"Acha progress — physical activity add karo kal routine mein":"Khana ghar pe banao + koi bhi movement karo. Simple hai, powerful hai";
+  }
+  if(catId==="mental"){
+    const mood=dl["mood_"+dayIdx];const stress=dl["stress_"+dayIdx];
+    if(s.p===0)return"Mental habits aaj zero rahi. Kal sirf ek karo — journal likho ya bahar niklo 🧘";
+    if(s.p===100)return"Mental health pe poora focus aaj — family, exploration, journal sab. Proud 💜";
+    if(stress>=4)return"Stress high raha aaj. Normal hai. Journal mein likho kya chal raha hai — halka feel hoga";
+    if(mood!==undefined&&mood<=2)return"Mood thoda low raha. Theek hai — kisi se baat karo ya bahar niklo, fark padta hai";
+    return s.p>=50?"Good mental day — consistency banao":"Kal kisi se baat karo ya 10 min bahar jao. Chhoti cheezein badi hoti hain";
+  }
+  if(catId==="financial"){
+    if(s.p===0)return"Financial habits aaj complete nahi hui. Kal kaam pe focus karo 💰";
+    if(s.p===100)return"Financial discipline solid raha aaj — kaam gaye, log kiya, career pe bhi kuch kiya 🏆";
+    return s.p>=66?"Good — kal career action step zaroor karo":"Shift log karna mat bhoolna — data se patterns milte hain";
+  }
+  return"";
 }
-function avgSleepWeek(){
-  const dl=(S.mt[CW]||{}).dl||{};
-  let total=0,count=0;
-  D.forEach((_,i)=>{
-    const bed=dl["bed_"+i],wake=dl["wake_"+i];
-    if(!bed||!wake)return;
-    const[bh,bm]=bed.split(":").map(Number);
-    const[wh,wm]=wake.split(":").map(Number);
-    let mins=(wh*60+wm)-(bh*60+bm);
-    if(mins<0)mins+=24*60;
-    total+=mins;count++;
-  });
-  if(!count)return null;
-  const avg=total/count;
-  return Math.floor(avg/60)+"h"+(Math.round(avg%60)>0?" "+Math.round(avg%60)+"m":"");
+
+// INSIGHTS — Weekly pattern text
+function getWeeklyPatternText(){
+  const dl=(S.mt[CW]||{}).dl||{};const today=getTodayIdx();
+  let patterns=[];
+  // Sleep-mood correlation
+  let sleepLowMoodLow=0,sleepHighMoodHigh=0,bothCount=0;
+  for(let i=0;i<=today;i++){
+    const s=calcSleep(dl["bed_"+i],dl["wake_"+i]);
+    const mood=dl["mood_"+i];
+    if(s&&mood!==undefined){
+      bothCount++;
+      if(s.h<6&&mood<=2)sleepLowMoodLow++;
+      if(s.h>=7&&mood>=4)sleepHighMoodHigh++;
+    }
+  }
+  if(bothCount>=3){
+    if(sleepLowMoodLow>=2)patterns.push("Jab neend kam rahi, mood bhi neeche gaya — yeh pattern clear dikh raha hai. Neend fix karo 😴");
+    else if(sleepHighMoodHigh>=2)patterns.push("Jab 7+ ghante soye, mood consistently achi rahi — neend ka fark real hai ✅");
+  }
+  // Stress pattern
+  const avgSt=avgStressWeek();
+  if(avgSt&&avgSt>=3.5)patterns.push("Is hafte stress consistently high raha. Journal mein likho kya trigger kar raha hai 🧠");
+  else if(avgSt&&avgSt<=2)patterns.push("Stress levels low raha is hafte — mental state strong hai 💚");
+  // Physical consistency
+  const phyCat=S.cats.find(c=>c.id==="physical");if(phyCat){const s=gs(S.wk[CW]||{},phyCat);if(s.p<40)patterns.push("Physical habits is hafte weak rahi — sirf ek habit daily pakad lo, baaki follow karegi 💪");else if(s.p>=75)patterns.push("Physical consistency is hafte solid rahi — body ko fark pad raha hoga 🔥");}
+  if(!patterns.length)patterns.push("Abhi zyada data nahi hai patterns dikhne ke liye — daily log bharte raho, patterns emerge honge");
+  return patterns;
 }
-function avgStressWeek(){
-  const dl=(S.mt[CW]||{}).dl||{};
-  let total=0,count=0;
-  D.forEach((_,i)=>{const v=dl["stress_"+i];if(v!==undefined&&v!==null){total+=Number(v);count++;}});
-  if(!count)return null;
-  return Math.round(total/count*10)/10;
+
+// INSIGHTS — Weekly verdict
+function getWeeklyVerdict(){
+  const wd=S.wk[CW]||{};const ov=go(wd);const today=getTodayIdx();
+  const cats=S.cats.map(c=>({...c,...gs(wd,c)}));
+  cats.sort((a,b)=>b.p-a.p);
+  const best=cats[0];const worst=cats[cats.length-1];
+  const sk=stk();
+  let verdict="";
+  if(ov.p===0)verdict=`Jashan, is hafte abhi shuru nahi hua. Koi baat nahi — aaj se karo. Ek habit, ek din. Bas.`;
+  else if(ov.p>=80)verdict=`Jashan, yeh hafte ka ek strong performance raha — ${ov.p}% overall. ${best.e} ${best.l} pe especially achi consistency rahi. ${sk>1?`${sk} week ki streak bana li — mat todna.`:""} Ek cheez next week: ${worst.l} pe thoda zyada focus.`;
+  else if(ov.p>=50)verdict=`Decent week Jashan — ${ov.p}% overall. ${best.e} ${best.l} strong raha. ${worst.e} ${worst.l} pe scope hai improve karne ka. ${today<4?"Abhi week khatam nahi hua — push karo":"Kal se naya week, naye goals."} `;
+  else verdict=`Is hafte ${ov.p}% raha — honestly, improve karna hai. ${best.e} ${best.l} mein kuch effort dikha. ${worst.e} ${worst.l} pe next week concentrate karo. Slow progress bhi progress hai Jashan.`;
+  // Best/worst day
+  let bestDay={idx:-1,p:0},worstDay={idx:-1,p:101};
+  for(let i=0;i<=today;i++){
+    let dn=0,tl=0;
+    S.cats.forEach(c=>{c.t.forEach(t=>{tl++;if((wd[c.id]?.[t]||[])[i])dn++;});});
+    const p=tl?Math.round(dn/tl*100):0;
+    if(p>bestDay.p){bestDay={idx:i,p};}
+    if(p<worstDay.p){worstDay={idx:i,p};}
+  }
+  return{verdict,bestDay,worstDay};
 }
 
 // CONFETTI
 function fireConfetti(){const wrap=document.createElement("div");wrap.className="confetti-wrap";const cols=["#64ffda","#10b981","#f59e0b","#8b5cf6","#ec4899","#3b82f6","#ef4444","#fff"];for(let i=0;i<60;i++){const p=document.createElement("div");p.className="confetti-piece";p.style.left=Math.random()*100+"%";p.style.background=cols[Math.floor(Math.random()*cols.length)];p.style.width=(Math.random()*8+5)+"px";p.style.height=(Math.random()*8+5)+"px";p.style.borderRadius=Math.random()>0.5?"50%":"2px";p.style.animationDuration=(Math.random()*2+2)+"s";p.style.animationDelay=Math.random()+"s";wrap.appendChild(p)}document.body.appendChild(wrap);setTimeout(()=>wrap.remove(),5000)}
 function checkConfetti(){const ov=go(S.wk[CW]);if(ov.p>=80&&!confettiShown[CW]){confettiShown[CW]=true;setTimeout(fireConfetti,300)}}
 
-// EXPORT — Full JSON backup
-function exportData(){
-  const data=JSON.stringify(S,null,2);
-  const blob=new Blob([data],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;a.download="jashan-tracker-backup-"+new Date().toISOString().slice(0,10)+".json";
-  document.body.appendChild(a);a.click();document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  showToast("✅ Backup downloaded!");
-}
-
-// IMPORT — Restore from JSON
-function importData(){
-  const inp=document.createElement("input");
-  inp.type="file";inp.accept=".json";
-  inp.onchange=e=>{
-    const file=e.target.files[0];if(!file)return;
-    const reader=new FileReader();
-    reader.onload=ev=>{
-      try{
-        const d=JSON.parse(ev.target.result);
-        if(!d.cats||!d.wk)throw new Error("Invalid file");
-        Object.assign(S,d);
-        save();
-        cS();R();
-        showToast("✅ Data imported successfully!");
-      }catch(err){showToast("❌ Invalid backup file");}
-    };
-    reader.readAsText(file);
-  };
-  inp.click();
-}
-
+// EXPORT / IMPORT
+function exportData(){const blob=new Blob([JSON.stringify(S,null,2)],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="jashan-tracker-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);showToast("✅ Backup downloaded!")}
+function importData(){const inp=document.createElement("input");inp.type="file";inp.accept=".json";inp.onchange=e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.cats||!d.wk)throw new Error("Invalid");Object.assign(S,d);save();cS();R();showToast("✅ Data imported!");}catch(err){showToast("❌ Invalid backup file");}};reader.readAsText(file);};inp.click()}
 function showToast(msg){var old=document.querySelector(".toast");if(old)old.remove();var el=document.createElement("div");el.className="toast";el.textContent=msg;document.body.appendChild(el);setTimeout(()=>{if(el.parentNode)el.remove()},2500)}
-
-// AI FEEDBACK — Build data summary and send to Claude API
-async function getAIFeedback(){
-  if(aiLoading)return;
-  aiLoading=true;
-  const btn=document.getElementById("aiFeedbackBtn");
-  if(btn){btn.disabled=true;btn.innerHTML="🤖 Analyzing your week...";}
-
-  const wd=S.wk[CW]||{};
-  const mt=S.mt[CW]||{};
-  const dl=mt.dl||{};
-  const ov=go(wd);
-  const today=getTodayIdx();
-
-  // Build a rich data summary
-  let summary="Jashan's Weekly Progress Data:\n\n";
-  summary+="Week: "+CW+" ("+wr(CW)+")\n";
-  summary+="Overall score: "+ov.p+"% ("+ov.dn+"/"+ov.tl+" habits done)\n";
-  summary+="Week streak: "+stk()+" weeks\n";
-  if(mt.intention)summary+="Weekly intention: "+mt.intention+"\n";
-  summary+="\nCategory breakdown:\n";
-  S.cats.forEach(c=>{
-    const s=gs(wd,c);
-    summary+=c.l+": "+s.p+"% ("+s.dn+"/"+s.tl+")\n";
-    c.t.forEach(t=>{
-      const arr=wd[c.id]?.[t]||[];
-      const done=arr.filter(Boolean).length;
-      summary+="  - "+t+": "+done+"/"+c.d+" days\n";
-    });
-  });
-
-  summary+="\nDaily Log Summary:\n";
-  D.forEach((day,i)=>{
-    if(i>today)return;
-    const mood=dl["mood_"+i];
-    const energy=dl["energy_"+i];
-    const stress=dl["stress_"+i];
-    const workout=dl["workout_"+i];
-    const dur=dl["duration_"+i];
-    const bed=dl["bed_"+i];
-    const wake=dl["wake_"+i];
-    const sleep=calcSleep(bed,wake);
-    const grat=dl["grat_"+i];
-    const win=dl["win_"+i];
-    const stressNote=dl["stress_note_"+i];
-    let dayStr=day+": ";
-    if(mood!==undefined)dayStr+="Mood="+M[mood]+" ";
-    if(energy!==undefined)dayStr+="Energy="+(energy+1)+"/5 ";
-    if(stress!==undefined)dayStr+="Stress="+stress+"/5 ";
-    if(workout)dayStr+="Workout="+workout+(dur?" "+dur+"min":"")+" ";
-    if(sleep)dayStr+="Sleep="+sleep+" ";
-    if(grat)dayStr+="\n  Grateful: "+grat;
-    if(win)dayStr+="\n  Win: "+win;
-    if(stressNote)dayStr+="\n  Stressed about: "+stressNote;
-    summary+=dayStr+"\n";
-  });
-
-  if(mt.stars)summary+="\nSelf rating: "+mt.stars+"/5 stars\n";
-  if(mt.reflection)summary+="Reflection: "+mt.reflection+"\n";
-
-  const prompt=`You are a personal growth coach for Jashan, a 21-year-old Indian international student living in Australia working full-time. He is just starting his fitness journey and working on mental and financial growth.
-
-Analyze his weekly tracker data and give him HONEST, SPECIFIC, PERSONALIZED feedback. Be like a real coach — direct, warm, motivating but truthful.
-
-Structure your response in 3 clear sections:
-1. 🔥 THIS WEEK — What went well, what didn't (be specific with his actual numbers)
-2. 🧠 PATTERNS I SEE — Connections in his data (e.g. low sleep = low mood days, stress patterns, habit consistency)
-3. 💪 NEXT WEEK — 3 specific, actionable things he should focus on
-
-Keep it conversational, use his name, reference his actual data. Max 250 words. No generic advice.
-
-His data:
-${summary}`;
-
-  try{
-    const res=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({
-        model:"claude-sonnet-4-20250514",
-        max_tokens:1000,
-        messages:[{role:"user",content:prompt}]
-      })
-    });
-    const data=await res.json();
-    const text=data.content?.[0]?.text||"Could not get feedback. Try again.";
-    // Store feedback
-    if(!S.mt[CW])S.mt[CW]={};
-    S.mt[CW].aiFeedback=text;
-    save();
-  }catch(err){
-    if(!S.mt[CW])S.mt[CW]={};
-    S.mt[CW].aiFeedback="❌ Could not connect. Check internet and try again.";
-    save();
-  }
-  aiLoading=false;
-  R();
-}
 
 // RENDER HELPERS
 function csv(p,cl,sz=80){const sw=6,r=(sz-sw)/2,c=2*Math.PI*r,o=c-(p/100)*c;return`<div style="position:relative;width:${sz}px;height:${sz}px;display:inline-block"><svg width="${sz}" height="${sz}" style="transform:rotate(-90deg)"><circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="${sw}"/><circle cx="${sz/2}" cy="${sz/2}" r="${r}" fill="none" stroke="${cl}" stroke-width="${sw}" stroke-dasharray="${c}" stroke-dashoffset="${o}" stroke-linecap="round" style="transition:stroke-dashoffset .5s"/></svg><div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:${sz*.22}px;font-weight:800;color:#e2e8f0;font-family:'Outfit'">${p}%</div></div>`}
-function bh(p,cl,h=7){return`<div style="width:100%;background:rgba(255,255,255,0.06);border-radius:${h}px;height:${h}px;overflow:hidden"><div style="width:${p}%;height:100%;background:${cl};border-radius:${h}px;transition:width .5s"></div></div>`}
-function cksvg(){return`<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
+function bh(p,cl,h=7){return`<div style="width:100%;background:rgba(255,255,255,0.06);border-radius:${h}px;height:${h}px;overflow:hidden"><div style="width:${p}%;height:100%;background:${cl};border-radius:${h}px;transition:width .6s"></div></div>`}
+function cksvg(col="#fff"){return`<svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.5 12L13 4" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
-function stressColor(v){if(!v)return"var(--sub)";if(v<=1)return"#10b981";if(v<=2)return"#64ffda";if(v<=3)return"#f59e0b";if(v<=4)return"#ef8b4d";return"#ef4444"}
-function sleepColor(hrs){if(!hrs)return"var(--sub)";const h=parseFloat(hrs);if(h>=7)return"#10b981";if(h>=6)return"#f59e0b";return"#ef4444"}
 
 const CW=wid();
 ew(CW);
 if(!S.sw)S.sw=CW;
 
+// MAIN RENDER
 function R(){
   ew(S.sw);
   const wd=S.wk[S.sw]||{};
@@ -431,9 +423,10 @@ function R(){
   const sk=stk();
   const today=getTodayIdx();
   const dayName=D[today];
+  const weekDates=getWeekDates(S.sw);
   let h="";
 
-  // Header
+  // HEADER
   h+=`<div class="hdr fu">
     <div class="hdr-top">
       <div>
@@ -444,26 +437,25 @@ function R(){
     </div>
   </div>`;
 
-  // Weekly Intention — BUG 1 FIX: onblur instead of onchange to prevent wipe on tab switch
+  // INTENTION — only current week tracker tab
   if(S.v==="tracker"&&ic){
     h+=`<div class="intention-banner fu" style="animation-delay:.05s">
       <div class="intention-label">🎯 This Week I Will...</div>
       <input class="intention-input" placeholder="Write your weekly intention here..." value="${esc(mt.intention||"")}" onblur="sm('intention',this.value)" maxlength="120">
-      <div class="intention-hint">${mt.intention?"Locked in. Let's get it. 💪":"Set your intention — it stays visible all week."}</div>
+      <div class="intention-hint">${mt.intention?"Locked in. Let's get it. 💪":"Set your intention — stays visible all week."}</div>
     </div>`;
   }
 
-  // TABS — only 2 now
+  // TABS — 3
   h+=`<div class="tabs">
     <div class="tab ${S.v==="tracker"?"a":""}" onclick="sv('tracker')">✅ Tracker</div>
     <div class="tab ${S.v==="dailylog"?"a":""}" onclick="sv('dailylog')">📋 Daily Log</div>
+    <div class="tab ${S.v==="insights"?"a":""}" onclick="sv('insights')">💡 Insights</div>
   </div>`;
 
-  // ═══ TRACKER TAB ═══
+  // ══════ TRACKER TAB ══════
   if(S.v==="tracker"){
-    const avgSl=avgSleepWeek();
-    const avgSt=avgStressWeek();
-
+    const avgSl=avgSleepWeek();const avgSt=avgStressWeek();
     h+=`<div class="sm fu" style="animation-delay:.1s">
       <div class="sm-top">
         <div>
@@ -477,57 +469,56 @@ function R(){
     </div>`;
 
     h+=`<div class="stats-row fu" style="animation-delay:.13s">
-      <div class="stat-box">
-        <div class="si">😴</div>
-        <div class="sv" style="color:${avgSl?sleepColor(avgSl):"var(--sub)"}">${avgSl||"—"}</div>
-        <div class="sl">Avg Sleep</div>
-      </div>
-      <div class="stat-box">
-        <div class="si">🧠</div>
-        <div class="sv" style="color:${avgSt?stressColor(avgSt):"var(--sub)"}">${avgSt||"—"}<span style="font-size:11px;color:var(--sub)">${avgSt?"/5":""}</span></div>
-        <div class="sl">Avg Stress</div>
-      </div>
-      <div class="stat-box">
-        <div class="si">🔥</div>
-        <div class="sv" style="color:${sk>0?"#f59e0b":"var(--sub)"}">${sk>0?sk+" wk":"New"}</div>
-        <div class="sl">Week Streak</div>
-      </div>
+      <div class="stat-box"><div class="si">😴</div><div class="sv" style="color:${avgSl?sleepColor(avgSl.h):"var(--sub)"}">${avgSl?fmtSleep(avgSl):"—"}</div><div class="sl">Avg Sleep</div></div>
+      <div class="stat-box"><div class="si">🧠</div><div class="sv" style="color:${avgSt?stressColor(avgSt):"var(--sub)"}">${avgSt?avgSt+"/5":"—"}</div><div class="sl">Avg Stress</div></div>
+      <div class="stat-box"><div class="si">🔥</div><div class="sv" style="color:${sk>0?"var(--amber)":"var(--sub)"}">${sk>0?sk+" wk":"New"}</div><div class="sl">Streak</div></div>
     </div>`;
 
+    // CATEGORY CARDS — TODAY VIEW
     S.cats.forEach((cat,ci)=>{
       const sc=gs(wd,cat);
+      const todayDone=cat.t.filter(t=>(wd[cat.id]?.[t]||[])[today]).length;
+      const isOpen=!!weekOpen[cat.id];
       h+=`<div class="cc fu" style="animation-delay:${.15+ci*.07}s">
         <div class="ch">
-          <div><h2><span>${cat.e}</span><span style="color:${cat.c}">${cat.l}</span></h2><p class="m">${cat.d} days • ${cat.t.length} habits/day</p></div>
-          <div style="text-align:right"><div class="p" style="color:${cat.c}">${sc.p}%</div><div class="ps">${sc.dn}/${sc.tl}</div></div>
+          <div><h2><span>${cat.e}</span><span style="color:${cat.c}">${cat.l}</span></h2>
+          <p class="m">Today: ${todayDone}/${cat.t.length} · Week: ${sc.p}%</p></div>
+          <div style="text-align:right"><div class="p" style="color:${cat.c}">${scoreEmoji(sc.p)}</div><div class="ps">${sc.dn}/${sc.tl}</div></div>
         </div>
         <div class="bw">${bh(sc.p,cat.c)}</div>
-        <div class="gw"><table><thead><tr><th>Habit</th>${D.slice(0,cat.d).map((d,di)=>`<th style="${di===today?"color:var(--accent);font-size:10px":""}">${d}${di===today?"•":""}</th>`).join("")}</tr></thead><tbody>`;
+        <div class="today-list">`;
+      cat.t.forEach(task=>{
+        const done=(wd[cat.id]?.[task]||[])[today];
+        const streak=getTaskStreak(cat.id,task);
+        h+=`<div class="habit-row ${done?"done":""}" onclick="${ic?`tt('${cat.id}',\`${task.replace(/`/g,"\\`")}\`,${today})`:""}">
+          <div class="habit-check ${done?"on":""}" style="background:${done?cat.c:"var(--inputBg)"};border-color:${done?cat.c:"var(--border)"};${done?"box-shadow:0 0 8px "+cat.c+"44":""}">
+            ${done?cksvg():""}
+          </div>
+          <span class="habit-name ${done?"done":""}">${esc(task)}</span>
+          ${streak>=2?`<span class="habit-streak" style="color:${cat.c}">🔥${streak}</span>`:""}
+        </div>`;
+      });
+      h+=`</div>
+        <div class="week-toggle" onclick="toggleWeek('${cat.id}')">
+          <span class="arr ${isOpen?"open":""}">▼</span>
+          <span>${isOpen?"Hide":"Show"} full week</span>
+        </div>
+        <div class="week-grid-wrap ${isOpen?"open":""}">
+          <table><thead><tr><th>Habit</th>${D.slice(0,cat.d).map((d,di)=>`<th style="${di===today?"color:var(--accent)":""}">${d}${di===today?"·":""}</th>`).join("")}</tr></thead><tbody>`;
       cat.t.forEach(task=>{
         const td=wd[cat.id]?.[task]||Array(cat.d).fill(false);
-        const streak=getTaskStreak(cat.id,task);
-        h+=`<tr><td class="tn">${esc(task)}${streak>=3?` <span style="font-size:9px;color:${cat.c}">🔥${streak}</span>`:streak>=1?` <span style="font-size:9px;color:var(--sub)">↑${streak}</span>`:""}</td>`;
+        h+=`<tr><td class="tn">${esc(task)}</td>`;
         for(let di=0;di<cat.d;di++){
           const on=td[di];const isToday=di===today;
-          h+=`<td style="text-align:center;padding:2px;${isToday?"background:rgba(100,255,218,0.04);border-radius:6px":""}"><div class="ck ${on?"on":""}" style="background:${on?cat.c:"var(--inputBg)"};border-color:${on?cat.c:isToday?"rgba(100,255,218,0.2)":"var(--border)"};${on?"box-shadow:0 0 10px "+cat.c+"33":""};${ic?"":"opacity:.5;cursor:default"}" onclick="${ic?`tt('${cat.id}',\`${task.replace(/`/g,"\\`")}\`,${di})`:""}">${on?cksvg():""}</div></td>`;
+          h+=`<td style="text-align:center;padding:2px;${isToday?"background:rgba(100,255,218,0.04);border-radius:6px":""}"><div class="ck ${on?"on":""}" style="background:${on?cat.c:"var(--inputBg)"};border-color:${on?cat.c:isToday?"rgba(100,255,218,0.2)":"var(--border)"};${on?"box-shadow:0 0 8px "+cat.c+"33":""};${ic?"":"opacity:.5;cursor:default"}" onclick="${ic?`tt('${cat.id}',\`${task.replace(/`/g,"\\`")}\`,${di})`:""}">${on?cksvg():""}</div></td>`;
         }
         h+=`</tr>`;
       });
       h+=`</tbody></table></div></div>`;
     });
 
-    // AI Feedback section
-    h+=`<div class="sum fu" style="animation-delay:.28s">
-      <h3>🤖 AI Weekly Feedback</h3>
-      <p style="font-size:12px;color:var(--sub);margin-bottom:10px">Claude analyzes your week data and gives you honest, personalized coaching.</p>
-      <button class="ai-btn" id="aiFeedbackBtn" onclick="getAIFeedback()" ${aiLoading?"disabled":""}>
-        ${aiLoading?"🤖 Analyzing your week...":"✨ Get My Weekly Feedback"}
-      </button>
-      ${mt.aiFeedback?`<div class="ai-response"><div class="ai-header">🤖 Claude's Analysis — ${wr(CW)}</div>${esc(mt.aiFeedback).replace(/\n/g,"<br>")}</div>`:""}
-    </div>`;
-
-    // Weekly summary
-    h+=`<div class="sum fu" style="animation-delay:.32s"><h3>📝 Weekly Summary</h3>`;
+    // WEEKLY SUMMARY
+    h+=`<div class="sum fu" style="animation-delay:.3s"><h3>📝 Weekly Summary</h3>`;
     S.cats.forEach(cat=>{
       const s=gs(wd,cat);
       const lb=s.p>=80?"🔥 Crushing it!":s.p>=50?"👍 Good":s.p>0?"⚡ Push more":"🎯 Get started";
@@ -541,7 +532,7 @@ function R(){
     <input class="inp" placeholder="One priority for next week..." value="${esc(mt.focus)}" onblur="sm('focus',this.value)" ${ic?"":"disabled"}></div>`;
   }
 
-  // ═══ DAILY LOG TAB ═══
+  // ══════ DAILY LOG TAB ══════
   if(S.v==="dailylog"){
     D.forEach((day,i)=>{
       const isOpen=!!openDays[i];
@@ -550,18 +541,20 @@ function R(){
       const dwk=dl["workout_"+i],ddur=dl["duration_"+i];
       const dbed=dl["bed_"+i],dwake=dl["wake_"+i];
       const moodPrev=dm!==undefined?M[dm]:"";
-      const sleepCalc=calcSleep(dbed,dwake);
+      const sl=calcSleep(dbed,dwake);
+      const dateStr=weekDates[i]||"";
 
       h+=`<div class="daycard fu" style="animation-delay:${i*.04}s;${isToday?"border-color:rgba(100,255,218,0.2)":""}">
         <div class="daycard-head" onclick="togD(${i})">
-          <div style="display:flex;align-items:center;gap:10px">
+          <div class="daycard-left">
             <span class="daycard-day" style="${isToday?"color:var(--accent)":""}">${day}</span>
             ${isToday?`<span style="font-size:9px;background:var(--accent);color:#0a192f;padding:1px 6px;border-radius:4px;font-weight:800">TODAY</span>`:""}
           </div>
           <div class="daycard-preview">
+            <span class="daycard-date">${dateStr}</span>
             ${moodPrev?`<span class="mood-prev">${moodPrev}</span>`:""}
-            ${dwk?`<span class="ep" style="background:rgba(16,185,129,0.1);color:#10b981">${dwk.split(" ")[0]}</span>`:""}
-            ${sleepCalc?`<span style="font-size:10px;color:var(--accent);font-weight:700">😴${sleepCalc}</span>`:""}
+            ${dwk?`<span class="ep" style="background:rgba(16,185,129,0.1);color:var(--green)">${dwk.split(" ")[0]}</span>`:""}
+            ${sl?`<span style="font-size:10px;color:var(--accent);font-weight:700">😴${fmtSleep(sl)}</span>`:""}
             <span class="arrow ${isOpen?"open":""}">▼</span>
           </div>
         </div>
@@ -575,17 +568,17 @@ function R(){
               <div><label style="font-size:9px;color:var(--sub);display:block;margin-bottom:3px">Wake up</label>
               <input class="time-inp" type="time" value="${esc(dwake||"")}" onchange="sdl('wake_${i}',this.value)" ${ic?"":"disabled"}></div>
             </div>
-            ${sleepCalc?`<div class="sleep-calc">😴 ${sleepCalc} sleep ${parseFloat(sleepCalc)>=7?"✅ Great!":parseFloat(sleepCalc)>=6?"⚡ Okay":"😰 Need more rest"}</div>`:""}
+            ${sl?`<div class="sleep-calc">😴 ${fmtSleep(sl)} sleep ${sl.h>=7?"✅ Great!":sl.h>=6?"⚡ Okay":"😰 Need more rest"}</div>`:""}
           </div>
           <div class="sec-divider">💪 Workout</div>
           <div class="daycard-field">
             <label>Workout Type</label>
             <div class="workout-grid">${WORKOUT_TYPES.map(wt=>`<div class="workout-type-btn ${dwk===wt?"a":""}" onclick="${ic?`sdl('workout_${i}','${wt}')`:""}">${wt}</div>`).join("")}</div>
           </div>
-          ${dwk&&dwk!=="😴 Rest Day"?`<div class="daycard-field"><label>Duration (minutes)</label><input class="dur-input" type="number" placeholder="How long? e.g. 45" value="${esc(ddur||"")}" onchange="sdl('duration_${i}',this.value)" ${ic?"":"disabled"} min="1" max="300"></div>`:""}
+          ${dwk&&dwk!=="😴 Rest Day"?`<div class="daycard-field"><label>Duration (minutes)</label><input class="dur-input" type="number" placeholder="e.g. 45" value="${esc(ddur||"")}" onchange="sdl('duration_${i}',this.value)" ${ic?"":"disabled"} min="1" max="300"></div>`:""}
           <div class="sec-divider">🥗 Meals</div>
           <div class="daycard-field">
-            <label>What did you eat today?</label>
+            <label>What did you eat?</label>
             <input class="meal-inp" placeholder="🌅 Breakfast..." value="${esc(dl['meal1_'+i]||'')}" onblur="sdl('meal1_${i}',this.value)" ${ic?"":"disabled"}>
             <input class="meal-inp" placeholder="☀️ Lunch..." value="${esc(dl['meal2_'+i]||'')}" onblur="sdl('meal2_${i}',this.value)" ${ic?"":"disabled"}>
             <input class="meal-inp" placeholder="🌙 Dinner..." value="${esc(dl['meal3_'+i]||'')}" onblur="sdl('meal3_${i}',this.value)" ${ic?"":"disabled"}>
@@ -615,7 +608,7 @@ function R(){
               <div class="qj-row"><span class="qj-emoji">🙏</span><textarea class="qj-inp" rows="1" placeholder="Grateful for..." onblur="sdl('grat_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['grat_'+i]||'')}</textarea></div>
               <div class="qj-row"><span class="qj-emoji">😤</span><textarea class="qj-inp" rows="1" placeholder="What stressed me..." onblur="sdl('stress_note_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['stress_note_'+i]||'')}</textarea></div>
               <div class="qj-row"><span class="qj-emoji">🏆</span><textarea class="qj-inp" rows="1" placeholder="One win today..." onblur="sdl('win_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['win_'+i]||'')}</textarea></div>
-              <div class="qj-row"><span class="qj-emoji">💭</span><textarea class="qj-inp" rows="2" placeholder="Anything else on your mind..." onblur="sdl('note_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['note_'+i]||'')}</textarea></div>
+              <div class="qj-row"><span class="qj-emoji">💭</span><textarea class="qj-inp" rows="2" placeholder="Anything else..." onblur="sdl('note_${i}',this.value)" ${ic?"":"disabled"}>${esc(dl['note_'+i]||'')}</textarea></div>
             </div>
           </div>
         </div>
@@ -623,7 +616,93 @@ function R(){
     });
   }
 
-  // ═══ HISTORY TAB ═══
+  // ══════ INSIGHTS TAB ══════
+  if(S.v==="insights"){
+    const wd2=S.wk[CW]||{};
+    const dl2=(S.mt[CW]||{}).dl||{};
+    const avgSl=avgSleepWeek();const avgSt=avgStressWeek();const avgMd=avgMoodWeek();
+    const todayOv=gsCat;
+    const sk2=stk();
+
+    // Motivational line
+    const motivLine=getMotivLine(go(wd2).p,sk2,avgSl?avgSl.h:null,avgSt);
+    h+=`<div class="motiv-card fu">
+      <div class="motiv-tag">💬 Today's Push</div>
+      <div class="motiv-line">"${motivLine}"</div>
+    </div>`;
+
+    // TODAY'S REPORT
+    const todayDate=weekDates[today]||"";
+    h+=`<div class="ins-card fu" style="animation-delay:.08s">
+      <div class="ins-label" style="color:var(--accent)">📍 Today's Report</div>
+      <div class="ins-title">${dayName}, ${todayDate}</div>`;
+
+    S.cats.forEach(cat=>{
+      const s=gsCat(cat.id,today);
+      const fbLine=getDailyFeedback(cat.id,today);
+      const fbClass=s.p>=75?"good":s.p>=50?"warn":"bad";
+      h+=`<div class="cat-feedback-row">
+        <div class="cat-fb-top">
+          <span class="cat-fb-name">${cat.e} <span style="color:${cat.c}">${cat.l}</span></span>
+          <span class="cat-fb-pct" style="color:${scoreColor(s.p)}">${s.p}% ${scoreEmoji(s.p)}</span>
+        </div>
+        <div class="fb-bar-wrap"><div class="fb-bar" style="width:${s.p}%;background:${cat.c}"></div></div>
+        <div class="fb-line ${fbClass}">${fbLine||"Log your habits to get feedback"}</div>
+      </div>`;
+    });
+    h+=`</div>`;
+
+    // WEEKLY PATTERNS
+    h+=`<div class="ins-card fu" style="animation-delay:.14s">
+      <div class="ins-label" style="color:var(--purple)">📊 Weekly Patterns</div>
+      <div class="pattern-grid">
+        <div class="pattern-box">
+          <div class="pi">😴</div>
+          <div class="pv" style="color:${avgSl?sleepColor(avgSl.h):"var(--sub)"}">${avgSl?fmtSleep(avgSl):"—"}</div>
+          <div class="pl">Avg Sleep</div>
+        </div>
+        <div class="pattern-box">
+          <div class="pi">${avgMd!==null?M[avgMd]:"—"}</div>
+          <div class="pv" style="color:${avgMd!==null?(avgMd>=4?"var(--green)":avgMd>=2?"var(--amber)":"var(--red)"):"var(--sub)"}">${avgMd!==null?M[avgMd]:"—"}</div>
+          <div class="pl">Avg Mood</div>
+        </div>
+        <div class="pattern-box">
+          <div class="pi">🧠</div>
+          <div class="pv" style="color:${avgSt?stressColor(avgSt):"var(--sub)"}">${avgSt?avgSt+"/5":"—"}</div>
+          <div class="pl">Avg Stress</div>
+        </div>
+      </div>`;
+    getWeeklyPatternText().forEach(pt=>{
+      h+=`<div class="pattern-text">💡 ${pt}</div>`;
+    });
+    h+=`</div>`;
+
+    // WEEKLY VERDICT
+    const{verdict,bestDay,worstDay}=getWeeklyVerdict();
+    const ov2=go(wd2);
+    h+=`<div class="ins-card fu" style="animation-delay:.2s">
+      <div class="ins-label" style="color:var(--amber)">📋 Week Verdict</div>
+      <div class="verdict-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <span style="font-size:22px;font-weight:900;font-family:'Outfit';color:${scoreColor(ov2.p)}">${ov2.p}%</span>
+          <span style="font-size:20px">${scoreEmoji(ov2.p)}</span>
+        </div>
+        <div class="verdict-text">${verdict}</div>
+        ${bestDay.idx>=0?`<div class="verdict-days">
+          <div class="verdict-day" style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.15)">
+            <div class="vd-label" style="color:var(--green)">Best Day</div>
+            <div class="vd-val">${D[bestDay.idx]} · ${bestDay.p}%</div>
+          </div>
+          <div class="verdict-day" style="background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.12)">
+            <div class="vd-label" style="color:var(--red)">Needs Work</div>
+            <div class="vd-val">${D[worstDay.idx]} · ${worstDay.p}%</div>
+          </div>
+        </div>`:""}
+      </div>
+    </div>`;
+  }
+
+  // ══════ HISTORY TAB ══════
   if(S.v==="history"){
     const ws=Object.keys(S.wk).sort().reverse();
     const bw=getBestWeek();
@@ -632,42 +711,23 @@ function R(){
     ws.forEach((w,wi)=>{
       const wo=go(S.wk[w]);const wm=S.mt[w]||{};const wdl=wm.dl||{};
       const cu=w===CW;const isBest=w===bw.week&&bw.pct>0;
-      let sleepTotal=0,sleepCount=0;
-      D.forEach((_,i)=>{
-        const bed=wdl["bed_"+i],wake=wdl["wake_"+i];
-        if(!bed||!wake)return;
-        const[bh2,bm]=bed.split(":").map(Number);
-        const[wh,wm2]=wake.split(":").map(Number);
-        let mins=(wh*60+wm2)-(bh2*60+bm);if(mins<0)mins+=24*60;
-        sleepTotal+=mins;sleepCount++;
-      });
-      const sleepStr=sleepCount?(Math.floor(sleepTotal/sleepCount/60)+"h"+(Math.round((sleepTotal/sleepCount)%60)>0?" "+Math.round((sleepTotal/sleepCount)%60)+"m":"")):"—";
+      let slTotal=0,slCount=0;
+      D.forEach((_,i)=>{const s=calcSleep(wdl["bed_"+i],wdl["wake_"+i]);if(s){slTotal+=s.total;slCount++;}});
+      const slStr=slCount?fmtSleep({h:Math.floor(slTotal/slCount/60),m:Math.round((slTotal/slCount)%60)}):"—";
       let stTotal=0,stCount=0;
       D.forEach((_,i)=>{const v=wdl["stress_"+i];if(v!==undefined&&v!==null){stTotal+=Number(v);stCount++;}});
-      const stressStr=stCount?(Math.round(stTotal/stCount*10)/10)+"/5":"—";
+      const stStr=stCount?(Math.round(stTotal/stCount*10)/10)+"/5":"—";
       const mv=D.map((_,i)=>wdl["mood_"+i]).filter(v=>v!==undefined);
-      const avgMood=mv.length?Math.round(mv.reduce((a,b)=>a+b,0)/mv.length):null;
-
-      h+=`<div class="hc fu" style="animation-delay:${wi*.05}s;border-left:${cu?"4px solid var(--accent)":isBest?"4px solid #f59e0b":"4px solid transparent"}" onclick="vw('${w}')">
+      const avgMd=mv.length?Math.round(mv.reduce((a,b)=>a+b,0)/mv.length):null;
+      h+=`<div class="hc fu" style="animation-delay:${wi*.05}s;border-left:${cu?"4px solid var(--accent)":isBest?"4px solid var(--amber)":"4px solid transparent"}" onclick="vw('${w}')">
         <div style="display:flex;justify-content:space-between;align-items:center">
-          <div>
-            <p style="font-size:13px;font-weight:800">${w}${cu?` <span style="font-size:10px;color:var(--accent)">CURRENT</span>`:""}${isBest?`<span class="best-badge">👑 BEST</span>`:""}</p>
-            <p style="font-size:10px;color:var(--sub);margin-top:1px">${wr(w)}</p>
-          </div>
-          <div style="text-align:right">
-            <span style="font-size:17px;font-weight:900;font-family:'Outfit';color:${wo.p>=70?"#10b981":wo.p>=40?"#f59e0b":"var(--sub)"}">${wo.p}%</span>
-            <p style="font-size:9px;color:var(--sub)">${wo.dn}/${wo.tl}</p>
-          </div>
+          <div><p style="font-size:13px;font-weight:800">${w}${cu?` <span style="font-size:10px;color:var(--accent)">CURRENT</span>`:""}${isBest?`<span class="best-badge">👑 BEST</span>`:""}</p>
+          <p style="font-size:10px;color:var(--sub);margin-top:1px">${wr(w)}</p></div>
+          <div style="text-align:right"><span style="font-size:17px;font-weight:900;font-family:'Outfit';color:${scoreColor(wo.p)}">${wo.p}%</span><p style="font-size:9px;color:var(--sub)">${wo.dn}/${wo.tl}</p></div>
         </div>
         <div class="h-mid">
-          <div class="h-left">
-            ${wm.stars?`<span style="font-size:11px">${"⭐".repeat(wm.stars)}</span>`:""}
-            <span style="font-size:16px">${avgMood!==null?M[avgMood]:"—"}</span>
-            <span style="font-size:10px;color:var(--accent);font-weight:700">😴 ${sleepStr}</span>
-          </div>
-          <div class="h-right">
-            <span style="font-size:10px;color:${stressStr!=="—"?stressColor(parseFloat(stressStr)):"var(--sub)"};font-weight:700">🧠 ${stressStr}</span>
-          </div>
+          <div class="h-left">${wm.stars?`<span style="font-size:11px">${"⭐".repeat(wm.stars)}</span>`:""}<span>${avgMd!==null?M[avgMd]:"—"}</span><span style="font-size:10px;color:var(--accent);font-weight:700">😴 ${slStr}</span></div>
+          <div class="h-right"><span style="font-size:10px;font-weight:700;color:${stStr!=="—"?stressColor(parseFloat(stStr)):"var(--sub)"}">🧠 ${stStr}</span></div>
         </div>
         <div class="hbs">${S.cats.map(c=>{const s=gs(S.wk[w],c);return`<div class="hbi"><span style="font-size:9px">${c.e}</span>${bh(s.p,c.c,3)}<span style="font-size:9px;color:${c.c};font-weight:700">${s.p}%</span></div>`}).join("")}</div>
       </div>`;
@@ -680,22 +740,15 @@ function R(){
 }
 
 // ACTIONS
-function sv(v){
-  S.v=v;
-  if(v==="tracker"||v==="dailylog")S.sw=CW;
-  if(v==="dailylog"){openDays={};const ti=getTodayIdx();openDays[ti]=true;}
-  save();R();
-}
+function sv(v){S.v=v;if(v==="tracker"||v==="dailylog"||v==="insights")S.sw=CW;if(v==="dailylog"){openDays={};openDays[getTodayIdx()]=true;}save();R()}
 function vw(w){S.sw=w;S.v="tracker";save();R();window.scrollTo(0,0)}
 function tt(ci,task,di){if(S.sw!==CW)return;ew(CW);if(!S.wk[CW][ci])S.wk[CW][ci]={};const cat=S.cats.find(c=>c.id===ci);if(!cat)return;if(!S.wk[CW][ci][task])S.wk[CW][ci][task]=Array(cat.d).fill(false);S.wk[CW][ci][task][di]=!S.wk[CW][ci][task][di];save();R()}
-function sm(k,v){if(S.sw!==CW)return;if(!S.mt[CW])S.mt[CW]={};S.mt[CW][k]=v;save();}
+function sm(k,v){if(S.sw!==CW)return;if(!S.mt[CW])S.mt[CW]={};S.mt[CW][k]=v;save()}
 function sdl(k,v){if(S.sw!==CW)return;ew(CW);S.mt[CW].dl[k]=v;save();if(k.startsWith("bed_")||k.startsWith("wake_")||k.startsWith("workout_")||k.startsWith("stress_"))R()}
 function togD(i){openDays[i]=!openDays[i];R()}
-
-// STRESS UI — no crash
+function toggleWeek(catId){weekOpen[catId]=!weekOpen[catId];R()}
 function updateStressUI(i,v){
-  const lb=document.getElementById("stlb_"+i);
-  const sl=document.getElementById("stsl_"+i);
+  const lb=document.getElementById("stlb_"+i);const sl=document.getElementById("stsl_"+i);
   if(lb){lb.textContent=v;lb.style.color=stressColor(v)}
   if(sl){const pct=(v-1)*25;sl.style.background="linear-gradient(to right,"+stressColor(v)+" "+pct+"%,rgba(255,255,255,0.1) "+pct+"%)"}
   const labelEl=sl&&sl.parentElement&&sl.parentElement.previousElementSibling;
@@ -704,18 +757,17 @@ function updateStressUI(i,v){
 
 // RESET
 function rw(){
-  var old=document.getElementById("resetModal");if(old)old.remove();
   var m=document.createElement("div");m.id="resetModal";
   m.style.cssText="position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:20px";
-  m.innerHTML='<div style="background:#112240;border:1px solid rgba(100,255,218,0.15);border-radius:16px;padding:24px;max-width:340px;width:100%;text-align:center"><p style="font-size:16px;font-weight:800;font-family:Outfit;margin-bottom:12px;color:#e2e8f0">🔄 Reset Week?</p><p style="font-size:12px;color:#8892b0;margin-bottom:20px;line-height:1.6">This will clear all checkboxes, daily logs, sleep, meal and journal data.<br><br><strong style="color:#ef4444">Cannot be undone.</strong></p><div style="display:flex;gap:10px"><button onclick="cancelReset()" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(100,255,218,0.08);background:transparent;color:#8892b0;font-weight:700;font-family:Nunito;cursor:pointer;font-size:13px">Cancel</button><button onclick="doReset()" style="flex:1;padding:10px;border-radius:10px;border:none;background:#ef4444;color:#fff;font-weight:700;font-family:Nunito;cursor:pointer;font-size:13px">Yes, Reset</button></div></div>';
+  m.innerHTML='<div style="background:#112240;border:1px solid rgba(100,255,218,0.15);border-radius:16px;padding:24px;max-width:340px;width:100%;text-align:center"><p style="font-size:16px;font-weight:800;font-family:Outfit;margin-bottom:12px;color:#e2e8f0">🔄 Reset Week?</p><p style="font-size:12px;color:#8892b0;margin-bottom:20px;line-height:1.6">All habits, logs, sleep and journal for this week will be cleared.<br><br><strong style="color:#ef4444">Cannot be undone.</strong></p><div style="display:flex;gap:10px"><button onclick="cancelReset()" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(100,255,218,0.08);background:transparent;color:#8892b0;font-weight:700;font-family:Nunito;cursor:pointer;font-size:13px">Cancel</button><button onclick="doReset()" style="flex:1;padding:10px;border-radius:10px;border:none;background:#ef4444;color:#fff;font-weight:700;font-family:Nunito;cursor:pointer;font-size:13px">Yes, Reset</button></div></div>';
   document.body.appendChild(m);
 }
 function cancelReset(){var m=document.getElementById("resetModal");if(m)m.remove()}
 function doReset(){
   var m=document.getElementById("resetModal");if(m)m.remove();
-  var newWk={};S.cats.forEach(c=>{newWk[c.id]={};c.t.forEach(t=>{newWk[c.id][t]=Array(c.d).fill(false)})});
-  S.wk[CW]=newWk;S.mt[CW]={dl:{}};S.sw=CW;S.v="tracker";openDays={};confettiShown[CW]=false;
-  save();R();window.scrollTo(0,0);setTimeout(()=>showToast("✅ Week reset successfully"),200);
+  var nw={};S.cats.forEach(c=>{nw[c.id]={};c.t.forEach(t=>{nw[c.id][t]=Array(c.d).fill(false)})});
+  S.wk[CW]=nw;S.mt[CW]={dl:{}};S.sw=CW;S.v="tracker";openDays={};weekOpen={};confettiShown[CW]=false;
+  save();R();window.scrollTo(0,0);setTimeout(()=>showToast("✅ Week reset"),200);
 }
 
 // SETTINGS
@@ -723,14 +775,12 @@ function sS(){
   if(document.getElementById("smod"))return;
   const el=document.createElement("div");el.className="mbg";el.id="smod";
   let h=`<div class="mdl"><button class="mc" onclick="cS()">✕</button><h2>⚙️ Settings</h2>`;
-  // Backup / Restore
   h+=`<div style="margin-bottom:16px;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:12px">
     <p style="font-size:11px;color:var(--accent);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">💾 Backup & Restore</p>
     <div style="display:flex;gap:8px">
-      <button onclick="exportData()" style="flex:1;padding:9px;border-radius:9px;border:1px solid rgba(100,255,218,0.3);background:rgba(100,255,218,0.06);color:var(--accent);font-weight:700;font-family:'Nunito';cursor:pointer;font-size:12px">📤 Export Backup</button>
-      <button onclick="importData()" style="flex:1;padding:9px;border-radius:9px;border:1px solid var(--border);background:var(--inputBg);color:var(--sub);font-weight:700;font-family:'Nunito';cursor:pointer;font-size:12px">📥 Import Backup</button>
+      <button onclick="exportData()" style="flex:1;padding:9px;border-radius:9px;border:1px solid rgba(100,255,218,0.3);background:rgba(100,255,218,0.06);color:var(--accent);font-weight:700;font-family:'Nunito';cursor:pointer;font-size:12px">📤 Export</button>
+      <button onclick="importData()" style="flex:1;padding:9px;border-radius:9px;border:1px solid var(--border);background:var(--inputBg);color:var(--sub);font-weight:700;font-family:'Nunito';cursor:pointer;font-size:12px">📥 Import</button>
     </div>
-    <p style="font-size:10px;color:var(--sub);margin-top:8px">Export saves your full data as a .json file. Import restores it.</p>
   </div>`;
   h+=`<p style="font-size:12px;color:var(--sub);font-weight:700;text-transform:uppercase;margin-bottom:10px">📂 Categories</p>`;
   S.cats.forEach((cat,ci)=>{
